@@ -8,6 +8,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -32,10 +33,14 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">F</span>
-              </div>
-              <span className="text-xl font-bold text-white">FaithConnect</span>
+             
+               <Image
+                              src="/belize-logo.png" // Replace with your actual logo path
+                              alt="Choosing Islam Logo"
+                              width={200} // set your desired width
+                              height={200} // set your desired height
+                              className="object-contain"
+                            />
             </div>
             <p className="text-sm mb-4">
               Connecting people with knowledge, understanding, and community

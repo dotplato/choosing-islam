@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Menu,
   X,
@@ -12,13 +12,36 @@ import {
   Twitter,
   Instagram,
   Youtube,
+  ChevronDown,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileQuranOpen, setMobileQuranOpen] = useState(false);
+  const [desktopQuranOpen, setDesktopQuranOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const closeTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    setDesktopQuranOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    closeTimeout.current = setTimeout(() => {
+      setDesktopQuranOpen(false);
+    }, 200);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,7 +77,93 @@ export default function Header() {
             <NavLink href="/about">About</NavLink>
             <NavLink href="/donate">Donate</NavLink>
             <NavLink href="/articles">Articles</NavLink>
-            <NavLink href="/quran">Quran</NavLink>
+            <div
+              onPointerEnter={handleMouseEnter}
+              onPointerLeave={handleMouseLeave}
+              className="relative"
+            >
+              <DropdownMenu
+                open={desktopQuranOpen}
+                onOpenChange={setDesktopQuranOpen}
+              >
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-1 text-base font-medium text-gray-800 hover:text-teal-600 transition-colors outline-none cursor-pointer">
+                    Quran <ChevronDown className="w-4 h-4" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="start"
+                  className="w-[300px] border-t-4 border-[#1B8AB2] rounded-none p-0"
+                  onPointerEnter={handleMouseEnter}
+                  onPointerLeave={handleMouseLeave}
+                >
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.clearquran.com/">
+                      Read the Quran
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.whyislam.org/introduction-to-the-quran/">
+                      Quran, a Brief Overview
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.whyislam.org/physics-in-the-light-of-the-quran/">
+                      Physics in the light of the Quran
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.whyislam.org/category/quran-and-science/">
+                      Quran and Science
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.whyislam.org/category/quran-opener/">
+                      The Opener (First Chapter of The Quran)
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.whyislam.org/the-preservation/">
+                      The Preservation of the Glorious Quran
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.whyislam.org/chapter-75-day-of-resurrection/">
+                      Chapter 75: Day of Resurrection
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="py-3 px-4 rounded-none focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                  >
+                    <Link href="https://www.whyislam.org/the-amazing-quran-3/">
+                      The Amazing Quran
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
             <NavLink href="/contact">Contact</NavLink>
           </nav>
 
@@ -126,7 +235,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
+          <div className="md:hidden border-t border-gray-200 py-4 max-h-[calc(100vh-80px)] overflow-y-auto">
             <nav className="flex flex-col space-y-3">
               <MobileNavLink href="/" onClick={() => setMobileMenuOpen(false)}>
                 Home
@@ -149,12 +258,70 @@ export default function Header() {
               >
                 Articles
               </MobileNavLink>
-              <MobileNavLink
-                href="/quran"
-                onClick={() => setMobileMenuOpen(false)}
+              <button
+                onClick={() => setMobileQuranOpen(!mobileQuranOpen)}
+                className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left"
               >
                 Quran
-              </MobileNavLink>
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${
+                    mobileQuranOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {mobileQuranOpen && (
+                <div className="pl-6 flex flex-col space-y-1 mt-1 border-l-2 border-gray-100 ml-4">
+                  <MobileNavLink
+                    href="https://www.clearquran.com/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Read the Quran
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href="https://www.whyislam.org/introduction-to-the-quran/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Quran, a Brief Overview
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href="https://www.whyislam.org/physics-in-the-light-of-the-quran/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Physics in the light of the Quran
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href="https://www.whyislam.org/category/quran-and-science/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Quran and Science
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href="https://www.whyislam.org/category/quran-opener/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    The Opener (First Chapter of The Quran)
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href="https://www.whyislam.org/the-preservation/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    The Preservation of the Glorious Quran
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href="https://www.whyislam.org/chapter-75-day-of-resurrection/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Chapter 75: Day of Resurrection
+                  </MobileNavLink>
+                  <MobileNavLink
+                    href="https://www.whyislam.org/the-amazing-quran-3/"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    The Amazing Quran
+                  </MobileNavLink>
+                </div>
+              )}
               <MobileNavLink
                 href="/contact"
                 onClick={() => setMobileMenuOpen(false)}

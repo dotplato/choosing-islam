@@ -1,17 +1,11 @@
-import {
-  Calendar,
-  Clock,
-  User,
-  ArrowLeft,
-  Share2,
-  BookmarkPlus,
-} from "lucide-react";
+import { Calendar, Clock, User, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getArticleBySlug, getArticles } from "@/lib/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
+import ShareButton from "./ShareButton";
 
 // Rich text rendering options
 const richTextOptions = {
@@ -109,7 +103,7 @@ export default async function ArticlePage({
       : "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=1200",
     date: article.fields.publishDate,
     readTime: "5 min read",
-    author: "Islamic Scholar",
+    author: article.fields.author || "Islamic Scholar",
     content: article.fields.bodyContent,
   };
 
@@ -179,6 +173,7 @@ export default async function ArticlePage({
                 <Clock className="w-5 h-5" />
                 <span>{articleData.readTime}</span>
               </div>
+              <ShareButton title={articleData.title} />
             </div>
           </div>
         </div>
@@ -187,18 +182,6 @@ export default async function ArticlePage({
       {/* Article Content */}
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Action Buttons */}
-          <div className="flex gap-3 mb-8 pb-8 border-b">
-            <Button variant="outline" className="gap-2">
-              <Share2 className="w-4 h-4" />
-              Share
-            </Button>
-            <Button variant="outline" className="gap-2">
-              <BookmarkPlus className="w-4 h-4" />
-              Save
-            </Button>
-          </div>
-
           {/* Article Body - Rich Text */}
           <div
             className="prose prose-lg max-w-none

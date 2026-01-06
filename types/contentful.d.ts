@@ -43,5 +43,6 @@ export interface ContentfulArticle {
     bodyContent: any; // Rich text document
     category: ContentfulCategory[];
     publishDate: string;
+    author?: string;
   };
 }

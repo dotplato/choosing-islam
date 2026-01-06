@@ -42,8 +42,8 @@ export default async function ArticlesPage({
         ? `https:${article.fields.category[0].fields.catimage.fields.file.url}`
         : "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800",
       date: article.fields.publishDate,
-      readTime: "5 min read", // You can calculate this based on content length
-      author: "Islamic Scholar", // Add author field to Contentful if needed
+      readTime: "5 min read",
+      author: article.fields.author || "Islamic Scholar",
     }));
 
   // Map categories

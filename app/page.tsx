@@ -344,7 +344,7 @@ export default async function Home() {
                 size="lg"
                 className="bg-teal-600 hover:bg-teal-700 text-white"
               >
-                View All Articles
+                View All Articles!
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>

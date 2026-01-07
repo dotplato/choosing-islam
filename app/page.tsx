@@ -211,10 +211,9 @@ export default async function Home() {
                   <MessageCircle className="mr-2 w-5 h-5" />
                   Chat With Us
                 </Button>
-                <Button
+               <Button
                   size="lg"
-                  variant="outline"
-                  className="border-1 border-white text-teal-700 hover:bg-gray-100"
+                  className="bg-white text-teal-700 hover:bg-gray-100"
                 >
                   Call: 1-800-123-4562
                 </Button>

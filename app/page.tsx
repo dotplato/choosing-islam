@@ -216,7 +216,7 @@ export default async function Home() {
                   variant="outline"
                   className="border-1 border-white text-teal-700 hover:bg-gray-100"
                 >
-                  Call: 1-800-123-4567
+                  Call: 1-800-123-4568
                 </Button>
               </div>
             </div>

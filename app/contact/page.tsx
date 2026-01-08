@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -37,13 +38,49 @@ export default function Contact() {
   const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">(
     "idle"
   );
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormStatus("success");
-    setTimeout(() => setFormStatus("idle"), 5000);
-    setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    setIsLoading(true);
+    setFormStatus("idle");
+
+    try {
+      const templateParams = {
+        from_name: formData.name,
+        name: formData.name,
+        user_name: formData.name,
+        sender_name: formData.name,
+        from_email: formData.email,
+        user_email: formData.email,
+        email: formData.email,
+        reply_to: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+        to_name: "Islamic Dawah Center of Belize",
+      };
+
+      console.log("Sending contact form to EmailJS:", templateParams);
+
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
+        process.env.NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID ||
+          "YOUR_TEMPLATE_ID",
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
+      );
+
+      console.log("EmailJS Result:", result.text);
+      setFormStatus("success");
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (error) {
+      console.error("Failed to send contact email:", error);
+      setFormStatus("error");
+    } finally {
+      setIsLoading(false);
+      setTimeout(() => setFormStatus("idle"), 5000);
+    }
   };
 
   const handleChange = (
@@ -284,10 +321,20 @@ export default function Contact() {
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={isLoading}
                   className="w-full bg-primary hover:bg-primary/90"
                 >
-                  <Send className="mr-2 w-5 h-5" />
-                  Send Message
+                  {isLoading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 w-5 h-5" />
+                      Send Message
+                    </>
+                  )}
                 </Button>
               </form>
             </CardContent>

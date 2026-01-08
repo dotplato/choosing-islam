@@ -53,7 +53,7 @@ export default async function Home() {
 
   // Fetch categories and recent articles from Contentful
   const contentfulCategories = await getCategories();
-  const recentArticles = await getRecentArticles(3);
+  const recentArticles = await getRecentArticles(7);
 
   // Map Contentful categories to topics format (fallback to placeholder if empty)
   const topics =
@@ -166,7 +166,7 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {topics.map((topic, index) => (
+            {topics.slice(0, 4).map((topic, index) => (
               <Link
                 key={index}
                 href={`/articles?category=${encodeURIComponent(topic.title)}`}
@@ -182,11 +182,27 @@ export default async function Home() {
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                   <h3 className="text-xl font-bold mb-2">{topic.title}</h3>
-                  <p className="text-sm text-gray-200">{topic.description}</p>
+                  <p className="text-sm text-gray-200 line-clamp-3">
+                    {topic.description}
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
+
+          {topics.length > 4 && (
+            <div className="text-center mt-12">
+              <Link href="/articles">
+                <Button
+                  size="lg"
+                  className="bg-teal-600 hover:bg-teal-700 text-white"
+                >
+                  View All Topics
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -211,7 +227,7 @@ export default async function Home() {
                   <MessageCircle className="mr-2 w-5 h-5" />
                   Chat With Us
                 </Button>
-               <Button
+                <Button
                   size="lg"
                   className="bg-white text-teal-700 hover:bg-gray-100"
                 >
@@ -275,7 +291,7 @@ export default async function Home() {
 
           {recentArticles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {recentArticles.map((article) => {
+              {recentArticles.slice(0, 6).map((article) => {
                 const thumbnailUrl = article.fields.thumbnail?.fields.file.url
                   ? `https:${article.fields.thumbnail.fields.file.url}`
                   : "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800";
@@ -335,17 +351,19 @@ export default async function Home() {
             </div>
           )}
 
-          <div className="text-center mt-12">
-            <Link href="/articles">
-              <Button
-                size="lg"
-                className="bg-teal-600 hover:bg-teal-700 text-white"
-              >
-                View All Articles
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
+          {recentArticles.length > 6 && (
+            <div className="text-center mt-12">
+              <Link href="/articles">
+                <Button
+                  size="lg"
+                  className="bg-teal-600 hover:bg-teal-700 text-white"
+                >
+                  View All Articles
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

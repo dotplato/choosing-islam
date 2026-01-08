@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   DollarSign,
 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,7 +22,6 @@ import { ImpactStats } from "@/components/donate/ImpactStats";
 const STEPS = [
   { id: 1, name: "Amount" },
   { id: 2, name: "Details" },
-  { id: 3, name: "Payment" },
 ];
 
 const PRESET_AMOUNTS = [10, 25, 100, 250];
@@ -50,15 +50,48 @@ export default function DonatePage() {
     if (step === 1 && currentAmount <= 0) return;
     if (step === 2) {
       if (!formData.firstName || !formData.lastName || !formData.email) return;
-    }
 
-    if (step < 3) {
-      setStep(step + 1);
-    } else {
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setIsLoading(false);
-      setIsSuccess(true);
+      try {
+        const templateParams = {
+          from_name: `${formData.firstName} ${formData.lastName}`,
+          fname: formData.firstName,
+          lname: formData.lastName,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          from_email: formData.email,
+          user_email: formData.email,
+          sender_email: formData.email,
+          email: formData.email,
+          reply_to: formData.email,
+          amount: currentAmount,
+          frequency: frequency,
+          to_name: "Islamic Dawah Center of Belize",
+        };
+
+        console.log("Sending donation details to EmailJS:", templateParams);
+
+        const result = await emailjs.send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID",
+          templateParams,
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
+        );
+
+        console.log("EmailJS Result:", result.text);
+        setIsSuccess(true);
+      } catch (error) {
+        console.error("Failed to send email:", error);
+        alert(
+          "There was an error processing your request. Please check the browser console for details."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    } else if (step < 2) {
+      setStep(step + 1);
     }
   };
 
@@ -105,7 +138,7 @@ export default function DonatePage() {
                   >
                     {s.name}
                   </span>
-                  {s.id < 3 && (
+                  {s.id < 2 && (
                     <div className="w-8 h-[2px] bg-gray-200 mx-2 hidden sm:block" />
                   )}
                 </div>
@@ -121,12 +154,12 @@ export default function DonatePage() {
                 </div>
                 <div className="space-y-2">
                   <h2 className="text-2xl font-bold text-gray-900">
-                    Thank You for Your Donation!
+                    Donation Details Sent!
                   </h2>
                   <p className="text-gray-600 max-w-sm mx-auto">
-                    Your contribution of ${currentAmount} keeps us moving
-                    forward in our mission. A receipt has been sent to{" "}
-                    {formData.email}.
+                    Thank you, {formData.firstName}! We have received your
+                    donation request of ${currentAmount} ({frequency}). Our team
+                    will contact you shortly with payment instructions.
                   </p>
                 </div>
                 <div className="pt-4">
@@ -282,22 +315,6 @@ export default function DonatePage() {
                   </div>
                 )}
 
-                {/* Step 3 */}
-                {step === 3 && (
-                  <div className="space-y-6">
-                    <div className="p-4 bg-teal-50 rounded-xl border border-teal-100 mb-6">
-                      <p className="text-teal-800 text-sm flex items-center gap-2 font-medium">
-                        <CreditCard className="w-4 h-4" />
-                        Amount to be charged:{" "}
-                        <span className="text-lg font-bold">
-                          ${currentAmount}{" "}
-                          {frequency === "monthly" ? "/ mo" : ""}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                )}
-
                 {/* Navigation Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   {step > 1 && (
@@ -331,8 +348,8 @@ export default function DonatePage() {
                       </div>
                     ) : (
                       <>
-                        {step === 3 ? "Complete Donation" : "Next Step"}
-                        {step < 3 && <ChevronRight className="w-5 h-5 ml-1" />}
+                        {step === 2 ? "Complete Donation" : "Next Step"}
+                        {step < 2 && <ChevronRight className="w-5 h-5 ml-1" />}
                       </>
                     )}
                   </Button>

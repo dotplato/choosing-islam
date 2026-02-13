@@ -22,7 +22,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function Header() {
+import { ContentfulArticle } from "@/types/contentful";
+
+interface HeaderProps {
+  quranArticles?: ContentfulArticle[];
+}
+
+export default function Header({ quranArticles = [] }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileQuranOpen, setMobileQuranOpen] = useState(false);
   const [desktopQuranOpen, setDesktopQuranOpen] = useState(false);
@@ -105,62 +111,17 @@ export default function Header() {
                       Read the Quran
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    asChild
-                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
-                  >
-                    <Link href="https://www.whyislam.org/introduction-to-the-quran/">
-                      Quran, a Brief Overview
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    asChild
-                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
-                  >
-                    <Link href="https://www.whyislam.org/physics-in-the-light-of-the-quran/">
-                      Physics in the light of the Quran
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    asChild
-                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
-                  >
-                    <Link href="https://www.whyislam.org/category/quran-and-science/">
-                      Quran and Science
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    asChild
-                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
-                  >
-                    <Link href="https://www.whyislam.org/category/quran-opener/">
-                      The Opener (First Chapter of The Quran)
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    asChild
-                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
-                  >
-                    <Link href="https://www.whyislam.org/the-preservation/">
-                      The Preservation of the Glorious Quran
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    asChild
-                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
-                  >
-                    <Link href="https://www.whyislam.org/chapter-75-day-of-resurrection/">
-                      Chapter 75: Day of Resurrection
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    asChild
-                    className="py-3 px-4 rounded-none focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
-                  >
-                    <Link href="https://www.whyislam.org/the-amazing-quran-3/">
-                      The Amazing Quran
-                    </Link>
-                  </DropdownMenuItem>
+                  {quranArticles.map((article) => (
+                    <DropdownMenuItem
+                      key={article.sys.id}
+                      asChild
+                      className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                    >
+                      <Link href={`/articles/${article.fields.slug}`}>
+                        {article.fields.title}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -278,48 +239,15 @@ export default function Header() {
                   >
                     Read the Quran
                   </MobileNavLink>
-                  <MobileNavLink
-                    href="https://www.whyislam.org/introduction-to-the-quran/"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Quran, a Brief Overview
-                  </MobileNavLink>
-                  <MobileNavLink
-                    href="https://www.whyislam.org/physics-in-the-light-of-the-quran/"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Physics in the light of the Quran
-                  </MobileNavLink>
-                  <MobileNavLink
-                    href="https://www.whyislam.org/category/quran-and-science/"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Quran and Science
-                  </MobileNavLink>
-                  <MobileNavLink
-                    href="https://www.whyislam.org/category/quran-opener/"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    The Opener (First Chapter of The Quran)
-                  </MobileNavLink>
-                  <MobileNavLink
-                    href="https://www.whyislam.org/the-preservation/"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    The Preservation of the Glorious Quran
-                  </MobileNavLink>
-                  <MobileNavLink
-                    href="https://www.whyislam.org/chapter-75-day-of-resurrection/"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Chapter 75: Day of Resurrection
-                  </MobileNavLink>
-                  <MobileNavLink
-                    href="https://www.whyislam.org/the-amazing-quran-3/"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    The Amazing Quran
-                  </MobileNavLink>
+                  {quranArticles.map((article) => (
+                    <MobileNavLink
+                      key={article.sys.id}
+                      href={`/articles/${article.fields.slug}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {article.fields.title}
+                    </MobileNavLink>
+                  ))}
                 </div>
               )}
               <MobileNavLink

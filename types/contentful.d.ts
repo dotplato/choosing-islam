@@ -45,5 +45,6 @@ export interface ContentfulArticle {
     publishDate: string;
     author?: string;
     featuredOnHomepage?: boolean;
+    showInQuranDropdown?: boolean;
   };
 }

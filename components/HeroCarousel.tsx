@@ -51,7 +51,7 @@ export default function HeroCarousel() {
                                     className="object-cover"
                                     priority={index === 0}
                                 />
-                                {/* Overlay for better text readability */}
+                                {/* test */}
                                 <div className="absolute inset-0 bg-black/40" />
                             </div>
                         </CarouselItem>

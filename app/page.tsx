@@ -74,11 +74,9 @@ export default async function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-             The Origins of Islam in Belize
-            </h1>
+Islamic Mission Belize – A Legacy of Dawah            </h1>
             <p className="text-xl sm:text-2xl mb-8 text-teal-50 leading-relaxed">
-             Explore the early presence of Muslims in Belize from African ancestors to Arab and East Indian migrants
-             and discover how faith and culture survived through centuries.
+             From its beginnings in 1972 to becoming a fully grounded Sunni community, the Islamic Mission Belize stands as a center of faith, education, and outreach dedicated to spreading authentic Islam across Belize.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button

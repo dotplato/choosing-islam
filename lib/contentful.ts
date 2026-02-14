@@ -38,7 +38,7 @@ export async function getArticleBySlug(
   const response = await client.getEntries({
     content_type: "article",
     "fields.slug": slug,
-    include: 2,
+    include: 3, // Increased to fetch embedded entries like videos
     limit: 1,
   });
 
@@ -80,6 +80,18 @@ export async function getQuranArticles(): Promise<ContentfulArticle[]> {
     "fields.showInQuranDropdown": true,
     order: ["fields.title"] as any,
     include: 2,
+  });
+
+  return response.items as unknown as ContentfulArticle[];
+}
+
+export async function getHistoryArticles(): Promise<ContentfulArticle[]> {
+  const response = await client.getEntries({
+    content_type: "article",
+    "fields.showInHistorySection": true,
+    order: ["fields.title"] as any,
+    include: 2,
+    limit: 4,
   });
 
   return response.items as unknown as ContentfulArticle[];

@@ -31,6 +31,29 @@ export interface ContentfulCategory {
   };
 }
 
+export interface ContentfulVideoEmbed {
+  sys: {
+    id: string;
+  };
+  fields: {
+    title: string;
+    youtubeUrl: string;
+    description?: string;
+  };
+}
+
+export interface ContentfulImageEntry {
+  sys: {
+    id: string;
+  };
+  fields: {
+    title: string;
+    image: ContentfulAsset;
+    caption?: string;
+    alignment?: "left" | "right" | "center";
+  };
+}
+
 export interface ContentfulArticle {
   sys: {
     id: string;
@@ -46,5 +69,6 @@ export interface ContentfulArticle {
     author?: string;
     featuredOnHomepage?: boolean;
     showInQuranDropdown?: boolean;
+    showInHistorySection?: boolean;
   };
 }

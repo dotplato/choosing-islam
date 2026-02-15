@@ -1,11 +1,10 @@
 import {
   ArrowRight,
-  Book,
-  Users,
-  Heart,
-  MessageCircle,
   Search,
   Globe,
+  MessageCircle,
+  Users,
+  Book,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -17,43 +16,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import HeroCarousel from "@/components/HeroCarousel";
-import { getCategories, getRecentArticles } from "@/lib/contentful";
+import {
+  getCategories,
+  getRecentArticles,
+  getHistoryArticles,
+} from "@/lib/contentful";
 
 export default async function Home() {
-  const features = [
-    {
-      icon: Book,
-      title: "Learn & Discover",
-      description:
-        "Explore comprehensive resources and educational materials to deepen your understanding.",
-      color: "from-green-500 to-emerald-600",
-    },
-    {
-      icon: Users,
-      title: "Community Connection",
-      description:
-        "Join a supportive community of individuals seeking knowledge and spiritual growth.",
-      color: "from-emerald-500 to-green-600",
-    },
-    {
-      icon: Heart,
-      title: "Personal Growth",
-      description:
-        "Develop your faith and character through guided learning and reflection.",
-      color: "from-green-500 to-teal-600",
-    },
-    {
-      icon: MessageCircle,
-      title: "Ask Questions",
-      description:
-        "Get answers to your questions from knowledgeable educators and community members.",
-      color: "from-emerald-600 to-green-700",
-    },
-  ];
-
-  // Fetch categories and recent articles from Contentful
+  // Fetch categories and articles from Contentful
   const contentfulCategories = await getCategories();
   const recentArticles = await getRecentArticles(7);
+  const historyArticles = await getHistoryArticles(); // Fetch articles marked for History section
 
   // Map Contentful categories to topics format (fallback to placeholder if empty)
   const topics =
@@ -101,11 +74,9 @@ export default async function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Discover Knowledge, Build Understanding
-            </h1>
+Islamic Mission Belize – A Legacy of Dawah            </h1>
             <p className="text-xl sm:text-2xl mb-8 text-teal-50 leading-relaxed">
-              Your journey to enlightenment begins here. Explore resources,
-              connect with community, and grow in faith.
+             From its beginnings in 1972 to becoming a fully grounded Sunni community, the Islamic Mission Belize stands as a center of faith, education, and outreach dedicated to spreading authentic Islam across Belize.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
@@ -127,30 +98,70 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* History of Belize Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <Card
-                key={index}
-                className="border-2 hover:shadow-xl transition-shadow duration-300"
-              >
-                <CardHeader>
-                  <div
-                    className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4`}
-                  >
-                    <feature.icon className="w-7 h-7 text-white" />
-                  </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              History of Belize
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Discover the rich Islamic history and heritage of Belize
+            </p>
           </div>
+
+          {historyArticles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {historyArticles.map((article) => {
+                const thumbnailUrl = article.fields.thumbnail?.fields.file.url
+                  ? `https:${article.fields.thumbnail.fields.file.url}`
+                  : "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800";
+
+                const categoryName =
+                  article.fields.category?.[0]?.fields.title || "General";
+
+                return (
+                  <Link
+                    key={article.sys.id}
+                    href={`/articles/${article.fields.slug}`}
+                    className="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-gray-100 hover:border-teal-500"
+                  >
+                    <div className="aspect-[4/3] relative overflow-hidden">
+                      <img
+                        src={thumbnailUrl}
+                        alt={article.fields.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span className="bg-teal-600 text-white px-3 py-1 rounded-full text-xs font-medium">
+                          {categoryName}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors line-clamp-2 min-h-[3.5rem]">
+                        {article.fields.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm line-clamp-3 mb-4">
+                        {article.fields.excerpt}
+                      </p>
+                      <div className="flex items-center text-teal-600 font-medium text-sm group-hover:gap-2 transition-all">
+                        Read More
+                        <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">
+                No history articles available yet. Mark articles with "Show in
+                History Section" in Contentful.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -299,7 +310,7 @@ export default async function Home() {
                 const categoryName =
                   article.fields.category?.[0]?.fields.title || "General";
                 const publishDate = new Date(
-                  article.fields.publishDate
+                  article.fields.publishDate,
                 ).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",

@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getArticleBySlug, getArticles } from "@/lib/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, MARKS } from "@contentful/rich-text-types";
+import { BLOCKS, MARKS, INLINES } from "@contentful/rich-text-types";
 import ShareButton from "./ShareButton";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
+import PositionedImage from "@/components/PositionedImage";
 
 // Rich text rendering options
 const richTextOptions = {
@@ -54,6 +56,83 @@ const richTextOptions = {
           )}
         </div>
       );
+    },
+    [BLOCKS.EMBEDDED_ENTRY]: (node: any) => {
+      const entry = node.data?.target;
+
+      // Safety check: ensure entry exists
+      if (!entry || !entry.fields) {
+        console.warn("Embedded entry missing data:", node);
+        return null;
+      }
+
+      // Check if this is a video embed entry
+      if (entry.sys?.contentType?.sys?.id === "videoEmbed") {
+        const { title, youtubeUrl, description } = entry.fields;
+        if (!youtubeUrl) {
+          console.warn("Video embed missing URL");
+          return null;
+        }
+        return (
+          <YouTubeEmbed
+            url={youtubeUrl}
+            title={title}
+            description={description}
+          />
+        );
+      }
+
+      // Check if this is an image entry with positioning
+      if (entry.sys?.contentType?.sys?.id === "imageEntry") {
+        const { title, image, caption, alignment } = entry.fields;
+
+        // Validate image data exists
+        if (
+          !image ||
+          !image.fields ||
+          !image.fields.file ||
+          !image.fields.file.url
+        ) {
+          console.warn("Image entry missing image data:", entry.fields);
+          return null;
+        }
+
+        // Handle alignment - Contentful might return it as array or string
+        let finalAlignment: "left" | "right" | "center" = "center";
+        if (alignment) {
+          // If it's an array, take the first value
+          const alignValue = String(
+            Array.isArray(alignment) ? alignment[0] : alignment,
+          )
+            .toLowerCase()
+            .trim();
+
+          // Validate it's a valid alignment
+          if (
+            alignValue === "left" ||
+            alignValue === "right" ||
+            alignValue === "center"
+          ) {
+            finalAlignment = alignValue as "left" | "right" | "center";
+          }
+        }
+
+        return (
+          <PositionedImage
+            src={`https:${image.fields.file.url}`}
+            alt={title || caption || "Article Image"}
+            caption={caption}
+            alignment={finalAlignment}
+          />
+        );
+      }
+
+      // Fallback for other embedded entry types
+      console.log(
+        "Unknown embedded entry type:",
+        entry.sys?.contentType?.sys?.id,
+      );
+      return null;
     },
   },
 };
@@ -113,7 +192,7 @@ export default async function ArticlePage({
     .filter(
       (a) =>
         a.sys.id !== article.sys.id &&
-        a.fields.category?.[0]?.fields?.title === articleData.category
+        a.fields.category?.[0]?.fields?.title === articleData.category,
     )
     .slice(0, 3)
     .map((a) => ({

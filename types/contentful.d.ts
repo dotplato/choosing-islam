@@ -28,6 +28,7 @@ export interface ContentfulCategory {
     slug: string;
     description?: string;
     catimage?: ContentfulAsset;
+    showInNavbar?: boolean;
   };
 }
 

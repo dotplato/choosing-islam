@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Birdcomponent from "@/components/Birdcomponent";
-import { getQuranArticles } from "@/lib/contentful";
+import { getQuranArticles, getNavbarCategories } from "@/lib/contentful";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,6 +42,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const quranArticles = await getQuranArticles();
+  const navbarCategories = await getNavbarCategories();
 
   return (
     <html lang="en">
@@ -49,7 +50,10 @@ export default async function RootLayout({
         <div className="min-h-screen flex flex-col relative">
           <Birdcomponent />
 
-          <Header quranArticles={quranArticles} />
+          <Header
+            quranArticles={quranArticles}
+            navbarCategories={navbarCategories}
+          />
           <main className="flex-grow">{children}</main>
           <Footer />
         </div>

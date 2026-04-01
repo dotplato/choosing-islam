@@ -96,3 +96,45 @@ export async function getHistoryArticles(): Promise<ContentfulArticle[]> {
 
   return response.items as unknown as ContentfulArticle[];
 }
+
+export async function getArticlesByCategoryId(
+  categoryId: string,
+): Promise<ContentfulArticle[]> {
+  const response = await client.getEntries({
+    content_type: "article",
+    "fields.category.sys.id": categoryId,
+    order: ["fields.title"] as any,
+    include: 2,
+  });
+
+  return response.items as unknown as ContentfulArticle[];
+}
+
+export async function getArticlesByCategory(
+  categorySlug: string,
+): Promise<ContentfulArticle[]> {
+  const categories = await getCategories();
+  const category = categories.find((cat) => cat.fields.slug === categorySlug);
+
+  if (!category) return [];
+
+  return getArticlesByCategoryId(category.sys.id);
+}
+
+export async function getNavbarCategories(): Promise<
+  (ContentfulCategory & { articles: ContentfulArticle[] })[]
+> {
+  const categories = await getCategories();
+  const navbarCategories = categories.filter(
+    (cat) => cat.fields.showInNavbar === true,
+  );
+
+  const categoriesWithArticles = await Promise.all(
+    navbarCategories.map(async (cat) => {
+      const articles = await getArticlesByCategoryId(cat.sys.id);
+      return { ...cat, articles };
+    }),
+  );
+
+  return categoriesWithArticles;
+}

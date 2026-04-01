@@ -15,7 +15,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import HeroCarousel from "@/components/HeroCarousel";
+import Hero from "@/components/Hero";
+import { ImpactStats } from "@/components/donate/ImpactStats";
 import {
   getCategories,
   getRecentArticles,
@@ -32,69 +33,94 @@ export default async function Home() {
   const topics =
     contentfulCategories.length > 0
       ? contentfulCategories.map((cat) => ({
-          title: cat.fields.title,
-          description: cat.fields.description || "Explore this category",
-          image: cat.fields.catimage?.fields.file.url
-            ? `https:${cat.fields.catimage.fields.file.url}`
-            : "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800",
-        }))
+        title: cat.fields.title,
+        description: cat.fields.description || "Explore this category",
+        image: cat.fields.catimage?.fields.file.url
+          ? `https:${cat.fields.catimage.fields.file.url}`
+          : "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800",
+      }))
       : [
-          {
-            title: "Core Beliefs",
-            description:
-              "Understanding the fundamental principles and teachings",
-            image:
-              "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800",
-          },
-          {
-            title: "Daily Practice",
-            description:
-              "Practical guidance for incorporating faith into everyday life",
-            image:
-              "https://images.pexels.com/photos/1001897/pexels-photo-1001897.jpeg?auto=compress&cs=tinysrgb&w=800",
-          },
-          {
-            title: "Community & Service",
-            description: "Building connections and serving humanity together",
-            image:
-              "https://images.pexels.com/photos/1157557/pexels-photo-1157557.jpeg?auto=compress&cs=tinysrgb&w=800",
-          },
-          {
-            title: "Spiritual Development",
-            description: "Growing in wisdom, compassion, and understanding",
-            image:
-              "https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=800",
-          },
-        ];
+        {
+          title: "Core Beliefs",
+          description:
+            "Understanding the fundamental principles and teachings",
+          image:
+            "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800",
+        },
+        {
+          title: "Daily Practice",
+          description:
+            "Practical guidance for incorporating faith into everyday life",
+          image:
+            "https://images.pexels.com/photos/1001897/pexels-photo-1001897.jpeg?auto=compress&cs=tinysrgb&w=800",
+        },
+        {
+          title: "Community & Service",
+          description: "Building connections and serving humanity together",
+          image:
+            "https://images.pexels.com/photos/1157557/pexels-photo-1157557.jpeg?auto=compress&cs=tinysrgb&w=800",
+        },
+        {
+          title: "Spiritual Development",
+          description: "Growing in wisdom, compassion, and understanding",
+          image:
+            "https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=800",
+        },
+      ];
 
   return (
     <>
-      <section className="relative text-white py-20 lg:py-28 overflow-hidden">
-        <HeroCarousel />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-Islamic Mission Belize – A Legacy of Dawah            </h1>
-            <p className="text-xl sm:text-2xl mb-8 text-teal-50 leading-relaxed">
-             From its beginnings in 1972 to becoming a fully grounded Sunni community, the Islamic Mission Belize stands as a center of faith, education, and outreach dedicated to spreading authentic Islam across Belize.
+      <Hero />
+
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Explore Topics
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Dive deep into various subjects and find answers to your questions
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                size="lg"
-                className="bg-white text-teal-700 hover:bg-gray-100"
-              >
-                Get Started
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-teal-700"
-              >
-                Learn More
-              </Button>
-            </div>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {topics.slice(0, 4).map((topic, index) => (
+              <Link
+                key={index}
+                href={`/articles?category=${encodeURIComponent(topic.title)}`}
+                className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer block"
+              >
+                <div className="aspect-[4/3] relative">
+                  <img
+                    src={topic.image}
+                    alt={topic.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">{topic.title}</h3>
+                  <p className="text-sm text-gray-200 line-clamp-3">
+                    {topic.description}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {topics.length > 4 && (
+            <div className="text-center mt-12">
+              <Link href="/articles">
+                <Button
+                  size="lg"
+                  className="bg-teal-600 hover:bg-teal-700 text-white"
+                >
+                  View All Topics
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -165,57 +191,8 @@ Islamic Mission Belize – A Legacy of Dawah            </h1>
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Explore Topics
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Dive deep into various subjects and find answers to your questions
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {topics.slice(0, 4).map((topic, index) => (
-              <Link
-                key={index}
-                href={`/articles?category=${encodeURIComponent(topic.title)}`}
-                className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer block"
-              >
-                <div className="aspect-[4/3] relative">
-                  <img
-                    src={topic.image}
-                    alt={topic.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-xl font-bold mb-2">{topic.title}</h3>
-                  <p className="text-sm text-gray-200 line-clamp-3">
-                    {topic.description}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {topics.length > 4 && (
-            <div className="text-center mt-12">
-              <Link href="/articles">
-                <Button
-                  size="lg"
-                  className="bg-teal-600 hover:bg-teal-700 text-white"
-                >
-                  View All Topics
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
+      {/* Impact Stats Section (from Donate Page) */}
+      <ImpactStats />
 
       <section className="py-16 bg-gradient-to-br from-teal-600 to-cyan-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

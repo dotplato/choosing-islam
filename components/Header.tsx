@@ -22,31 +22,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { ContentfulArticle } from "@/types/contentful";
+import { ContentfulArticle, ContentfulCategory } from "@/types/contentful";
 
 interface HeaderProps {
   quranArticles?: ContentfulArticle[];
+  navbarCategories?: (ContentfulCategory & { articles: ContentfulArticle[] })[];
 }
 
-export default function Header({ quranArticles = [] }: HeaderProps) {
+export default function Header({
+  quranArticles = [],
+  navbarCategories = [],
+}: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileQuranOpen, setMobileQuranOpen] = useState(false);
-  const [desktopQuranOpen, setDesktopQuranOpen] = useState(false);
+  const [openMobileCategories, setOpenMobileCategories] = useState<string[]>(
+    [],
+  );
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const closeTimeout = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    setDesktopQuranOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (closeTimeout.current) clearTimeout(closeTimeout.current);
-    closeTimeout.current = setTimeout(() => {
-      setDesktopQuranOpen(false);
-    }, 200);
+  const toggleMobileCategory = (id: string) => {
+    setOpenMobileCategories((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+    );
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -83,25 +81,16 @@ export default function Header({ quranArticles = [] }: HeaderProps) {
             <NavLink href="/about">About</NavLink>
             <NavLink href="/donate">Donate</NavLink>
             <NavLink href="/articles">Articles</NavLink>
-            <div
-              onPointerEnter={handleMouseEnter}
-              onPointerLeave={handleMouseLeave}
-              className="relative"
-            >
-              <DropdownMenu
-                open={desktopQuranOpen}
-                onOpenChange={setDesktopQuranOpen}
-              >
+            <div className="relative">
+              <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-1 text-base font-medium text-gray-800 hover:text-teal-600 transition-colors outline-none cursor-pointer">
+                  <button className="flex items-center gap-1 text-base font-medium text-gray-800 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase">
                     Quran <ChevronDown className="w-4 h-4" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
                   className="w-[300px] border-t-4 border-[#1B8AB2] rounded-none p-0"
-                  onPointerEnter={handleMouseEnter}
-                  onPointerLeave={handleMouseLeave}
                 >
                   <DropdownMenuItem
                     asChild
@@ -117,7 +106,10 @@ export default function Header({ quranArticles = [] }: HeaderProps) {
                       asChild
                       className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
                     >
-                      <Link href={`/articles/${article.fields.slug}`}>
+                      <Link
+                        href={`/articles/${article.fields.slug}`}
+                        className="w-full h-full block"
+                      >
                         {article.fields.title}
                       </Link>
                     </DropdownMenuItem>
@@ -194,6 +186,46 @@ export default function Header({ quranArticles = [] }: HeaderProps) {
           </button>
         </div>
 
+        {/* Secondary Desktop Navbar - Categories */}
+        <div className="hidden md:flex items-center justify-center py-2 border-t border-gray-100 space-x-8">
+          {navbarCategories.map((cat) => (
+            <div key={cat.sys.id} className="relative">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-1 text-sm font-semibold text-gray-600 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase tracking-wider">
+                    {cat.fields.title} <ChevronDown className="w-3 h-3" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="start"
+                  className="w-[300px] border-t-4 border-[#1B8AB2] rounded-none p-0"
+                >
+                  {cat.articles.length > 0 ? (
+                    cat.articles.map((article) => (
+                      <DropdownMenuItem
+                        key={article.sys.id}
+                        asChild
+                        className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                      >
+                        <Link
+                          href={`/articles/${article.fields.slug}`}
+                          className="w-full h-full block"
+                        >
+                          {article.fields.title}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))
+                  ) : (
+                    <DropdownMenuItem className="py-3 px-4 text-gray-500">
+                      No articles found
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ))}
+        </div>
+
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 py-4 max-h-[calc(100vh-80px)] overflow-y-auto">
@@ -219,9 +251,47 @@ export default function Header({ quranArticles = [] }: HeaderProps) {
               >
                 Articles
               </MobileNavLink>
+
+              {navbarCategories.map((cat) => (
+                <div key={cat.sys.id}>
+                  <button
+                    onClick={() => toggleMobileCategory(cat.sys.id)}
+                    className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left uppercase"
+                  >
+                    {cat.fields.title}
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform ${
+                        openMobileCategories.includes(cat.sys.id)
+                          ? "rotate-180"
+                          : ""
+                      }`}
+                    />
+                  </button>
+                  {openMobileCategories.includes(cat.sys.id) && (
+                    <div className="pl-6 flex flex-col space-y-1 mt-1 border-l-2 border-gray-100 ml-4">
+                      {cat.articles && cat.articles.length > 0 ? (
+                        cat.articles.map((article) => (
+                          <MobileNavLink
+                            key={article.sys.id}
+                            href={`/articles/${article.fields.slug}`}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {article.fields.title}
+                          </MobileNavLink>
+                        ))
+                      ) : (
+                        <div className="px-4 py-2 text-sm text-gray-500">
+                          No articles found
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+
               <button
                 onClick={() => setMobileQuranOpen(!mobileQuranOpen)}
-                className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left"
+                className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left uppercase"
               >
                 Quran
                 <ChevronDown

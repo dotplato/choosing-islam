@@ -12,9 +12,9 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="relative text-white bg-gradient-to-br from-cyan-800 via-blue-800 to-blue-500">
+    <footer className="relative text-white bg-gradient-to-br from-teal-500 to-cyan-700">
       <div
-        className="absolute inset-0 bg-cover bg-center z-0 opacity-20"
+        className="absolute inset-0 bg-cover bg-center z-0 opacity-10"
         style={{
           backgroundImage: "url('/pngwing.com (1).png')",
         }}
@@ -46,16 +46,16 @@ export default function Footer() {
               through education and dialogue.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-teal-400 transition-colors">
+              <a href="#" className="hover:text-teal-200 transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-teal-400 transition-colors">
+              <a href="#" className="hover:text-teal-200 transition-colors">
                 <Twitter className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-teal-400 transition-colors">
+              <a href="#" className="hover:text-teal-200 transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-teal-400 transition-colors">
+              <a href="#" className="hover:text-teal-200 transition-colors">
                 <Youtube className="w-5 h-5" />
               </a>
             </div>
@@ -70,7 +70,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/"
-                  className="hover:text-teal-400 transition-colors text-sm"
+                  className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Home
                 </Link>
@@ -78,7 +78,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="hover:text-teal-400 transition-colors text-sm"
+                  className="hover:text-teal-200 transition-colors text-sm"
                 >
                   About Us
                 </Link>
@@ -86,7 +86,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-teal-400 transition-colors text-sm"
+                  className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Resources
                 </a>
@@ -94,7 +94,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-teal-400 transition-colors text-sm"
+                  className="hover:text-teal-200 transition-colors text-sm"
                 >
                   FAQ
                 </a>
@@ -106,18 +106,11 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold text-lg mb-4">Support</h3>
             <ul className="space-y-2">
+              
               <li>
                 <a
                   href="#"
-                  className="hover:text-teal-400 transition-colors text-sm"
-                >
-                  Volunteer
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-teal-400 transition-colors text-sm"
+                  className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Donate
                 </a>
@@ -125,7 +118,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-teal-400 transition-colors text-sm"
+                  className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Contact Us
                 </a>
@@ -133,7 +126,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="hover:text-teal-400 transition-colors text-sm"
+                  className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Privacy Policy
                 </a>

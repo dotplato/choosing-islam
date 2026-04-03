@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Target,
   Eye,
@@ -9,6 +11,7 @@ import {
   Globe,
   Lightbulb,
   Handshake,
+  ArrowRight,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -227,63 +230,39 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Meet Our Team
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Dedicated professionals committed to serving our community
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <Card
-                key={index}
-                className="border-2 hover:shadow-xl transition-all duration-300 overflow-hidden"
-              >
-                <div className="aspect-square relative overflow-hidden">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-xl">{member.name}</CardTitle>
-                  <p className="text-teal-600 font-semibold">{member.role}</p>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {member.bio}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-gradient-to-br from-teal-600 to-cyan-700 text-white">
+      <section className="py-16 text-black bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Users className="w-16 h-16 mx-auto mb-6" />
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             Join Our Community
           </h2>
-          <p className="text-xl text-teal-50 mb-8 leading-relaxed">
+          <p className="text-xl text-black mb-8 leading-relaxed">
             Whether you're seeking knowledge, looking to volunteer, or wanting
             to support our mission, there are many ways to get involved with
             Islamic Dawah Center of Belize.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-teal-700 hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold text-lg transition-colors">
-              Become a Volunteer
-            </button>
-            <button className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-lg font-semibold text-lg transition-colors">
-              Support Our Work
-            </button>
+
+            <Link href="/volunteer">
+              <Button
+                size="lg"
+                className="bg-teal-600 hover:bg-teal-700 text-white"
+              >
+                Become a Volunteer
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+
+            <Link href="/donate">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-1 border-white text-teal-700 hover:bg-white/10"
+              >
+                Support Our Work
+              </Button>
+            </Link>
+
           </div>
         </div>
       </section>

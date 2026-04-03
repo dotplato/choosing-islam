@@ -29,6 +29,7 @@ export interface ContentfulCategory {
     description?: string;
     catimage?: ContentfulAsset;
     showInNavbar?: boolean;
+    showInTopic?: boolean;
   };
 }
 

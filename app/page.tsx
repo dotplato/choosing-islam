@@ -16,23 +16,27 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Hero from "@/components/Hero";
-import { ImpactStats } from "@/components/donate/ImpactStats";
+import { StatsGrid } from "@/components/StatsGrid";
+import DonateForm from "@/components/donate/DonateForm";
+import ValuesSection from "@/components/ValuesSection";
+import TeamSection from "@/components/TeamSection";
 import {
   getCategories,
+  getTopicCategories,
   getRecentArticles,
   getHistoryArticles,
 } from "@/lib/contentful";
 
 export default async function Home() {
   // Fetch categories and articles from Contentful
-  const contentfulCategories = await getCategories();
+  const topicCategories = await getTopicCategories();
   const recentArticles = await getRecentArticles(7);
   const historyArticles = await getHistoryArticles(); // Fetch articles marked for History section
 
   // Map Contentful categories to topics format (fallback to placeholder if empty)
   const topics =
-    contentfulCategories.length > 0
-      ? contentfulCategories.map((cat) => ({
+    topicCategories.length > 0
+      ? topicCategories.map((cat) => ({
         title: cat.fields.title,
         description: cat.fields.description || "Explore this category",
         image: cat.fields.catimage?.fields.file.url
@@ -124,7 +128,114 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* History of Belize Section */}
+     
+
+      {/* Impact & Gallery Section */}
+      <section className="py-20 bg-gradient-to-br from-teal-600 to-cyan-700 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/20 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left side: 3x3 Image Grid */}
+            <div className="order-2 lg:order-1">
+              <div className="grid grid-cols-3 gap-3 md:gap-4">
+                {[
+                  "/impact/i1.jpeg",
+                  "/impact/i2.jpeg",
+                  "/impact/i3.jpeg",
+                  "/impact/i4.jpeg",
+                 "/impact/i5.jpeg",
+                  "/impact/i6.jpeg",
+                  "/impact/i7.jpeg",
+                  "/impact/i8.jpeg",
+                  "/impact/i9.jpeg",
+                ].map((src, i) => (
+                  <div key={i} className="aspect-square rounded-2xl overflow-hidden shadow-2xl group relative">
+                    <img 
+                      src={src} 
+                      alt={`Gallery image ${i + 1}`} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                    />
+                    <div className="absolute inset-0 bg-teal-900/20 group-hover:bg-transparent transition-colors duration-300" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right side: Impact Stats */}
+            <div className="order-1 lg:order-2 space-y-10">
+              <div className="space-y-4">
+                <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
+                  Our Global Impact
+                </h2>
+                <div className="w-20 h-1.5 bg-teal-300 rounded-full" />
+                <p className="text-xl text-teal-50 leading-relaxed max-w-lg">
+                  Through the grace of Allah and your generous support, we are making a real difference across Belize and the world.
+                </p>
+              </div>
+              
+              <StatsGrid />
+
+              <div className="pt-6">
+                <Link href="/donate">
+                  <Button size="lg" className="bg-white text-teal-700 hover:bg-teal-50 px-8 py-6 text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
+                    Support Our Mission
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Donation Form Content */}
+          <div className="mt-32 pt-32 border-t border-white/10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+              {/* Left side: Text Content */}
+              <div className="space-y-8 lg:sticky lg:top-24">
+                <div className="space-y-6">
+                  <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                    Invest in Your <span className="text-teal-200">Sadaqah Jariyah</span>
+                  </h2>
+                  <div className="w-24 h-2 bg-teal-300 rounded-full" />
+                  
+                  <div className="space-y-6 text-xl text-teal-50 leading-relaxed font-medium">
+                    <p>
+                      Your donation is more than just a contribution—it is an investment in guidance, knowledge, and lasting الخير (goodness).
+                    </p>
+                    <p>
+                      Every book placed on a shelf, every conversation held, and every prayer performed in this center will be part of your ongoing reward (Sadaqah Jariyah), insha’Allah.
+                    </p>
+                    <p className="pt-4 text-white font-bold">
+                      Together, we can build a center that inspires hearts, spreads truth, and strengthens our community for generations to come.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 pt-8">
+                  {[
+                    "Transparent Usage",
+                    "Direct Impact",
+                    "Verified Mission",
+                    "Secure Process"
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 text-teal-100">
+                      <div className="w-2 h-2 bg-teal-300 rounded-full" />
+                      <span className="text-sm font-semibold uppercase tracking-wider">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right side: Donation Form */}
+              <div className="w-full max-w-xl mx-auto lg:mx-0">
+                <DonateForm />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+       {/* History of Belize Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -191,79 +302,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Impact Stats Section (from Donate Page) */}
-      <ImpactStats />
-
-      <section className="py-16 bg-gradient-to-br from-teal-600 to-cyan-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-                Have Questions? We're Here to Help
-              </h2>
-              <p className="text-xl text-teal-50 mb-8 leading-relaxed">
-                Our knowledgeable team is available 24/7 to answer your
-                questions and provide guidance. Whether you're new to your
-                spiritual journey or seeking deeper understanding, we're here
-                for you.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className="bg-white text-teal-700 hover:bg-gray-100"
-                >
-                  <MessageCircle className="mr-2 w-5 h-5" />
-                  Chat With Us
-                </Button>
-                <Button
-                  size="lg"
-                  className="bg-white text-teal-700 hover:bg-gray-100"
-                >
-                  Call: 1-800-123-4569
-                </Button>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
-                <CardHeader>
-                  <Globe className="w-10 h-10 mb-2" />
-                  <CardTitle className="text-white">50+ Countries</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-teal-50">Serving communities worldwide</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
-                <CardHeader>
-                  <Users className="w-10 h-10 mb-2" />
-                  <CardTitle className="text-white">100K+ Members</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-teal-50">Active community members</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
-                <CardHeader>
-                  <Book className="w-10 h-10 mb-2" />
-                  <CardTitle className="text-white">1000+ Resources</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-teal-50">Educational materials</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
-                <CardHeader>
-                  <Search className="w-10 h-10 mb-2" />
-                  <CardTitle className="text-white">24/7 Support</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-teal-50">Always here to help</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ValuesSection />
 
       {/* Recent Articles Section */}
       <section className="py-16 bg-white">
@@ -355,6 +394,8 @@ export default async function Home() {
         </div>
       </section>
 
+      <TeamSection />
+
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
@@ -368,8 +409,7 @@ export default async function Home() {
             <Link href="/about">
               <Button
                 size="lg"
-                className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
-              >
+ className="bg-teal-600 hover:bg-teal-700 text-white"              >
                 Learn About Us
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>

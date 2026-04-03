@@ -22,6 +22,17 @@ export async function getCategories(): Promise<ContentfulCategory[]> {
   return response.items as unknown as ContentfulCategory[];
 }
 
+export async function getTopicCategories(): Promise<ContentfulCategory[]> {
+  const response = await client.getEntries({
+    content_type: "category",
+    "fields.showInTopic": true,
+    order: ["fields.title"] as any,
+    include: 2,
+  });
+
+  return response.items as unknown as ContentfulCategory[];
+}
+
 export async function getArticles(): Promise<ContentfulArticle[]> {
   const response = await client.getEntries({
     content_type: "article",

@@ -11,7 +11,7 @@ import Image from "next/image";
 
 
 const heroImages = [
-  "/M-A.jpg",
+  "/hero/h1.jpeg",
   "/belize3.jpg",
   "/b9.jpg",
 

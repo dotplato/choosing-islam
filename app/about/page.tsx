@@ -60,7 +60,7 @@ export default function About() {
 
   return (
     <>
-      <section className="relative text-white pt-32 pb-20 overflow-hidden">
+      <section className="relative text-white pt-48 pb-20 overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/hero/bg-hero-about.jpeg"

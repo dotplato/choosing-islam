@@ -46,14 +46,34 @@ export default function Header({
   );
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        mobileButtonRef.current &&
+        !mobileButtonRef.current.contains(event.target as Node)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
 
   const toggleMobileCategory = (id: string) => {
     setOpenMobileCategories((prev) =>
@@ -243,6 +263,7 @@ News and Resources
 
           {/* Mobile Menu Button */}
           <Button
+            ref={mobileButtonRef}
             variant="ghost"
             size="icon"
             className={cn("md:hidden p-2", iconClasses)}
@@ -259,7 +280,7 @@ News and Resources
         {/* Secondary Desktop Navbar - Categories */}
         <div
           className={cn(
-            "hidden md:flex items-center justify-center py-2 border-t space-x-8 transition-colors duration-300",
+            "hidden md:flex items-center justify-center py-2 border-t mt-4 space-x-8 transition-colors duration-300",
             isHomePage && !isScrolled
               ? "border-white/10"
               : "border-gray-100",
@@ -313,7 +334,10 @@ News and Resources
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4 max-h-[calc(100vh-80px)] overflow-y-auto">
+          <div
+            ref={mobileMenuRef}
+            className="md:hidden border-t border-gray-200 py-4 max-h-[calc(100vh-80px)] overflow-y-auto bg-white shadow-xl animate-in slide-in-from-top duration-300"
+          >
             <nav className="flex flex-col space-y-3">
               <MobileNavLink href="/" onClick={() => setMobileMenuOpen(false)}>
                 Home

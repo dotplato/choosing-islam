@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -87,14 +88,27 @@ export default async function ArticlesPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-teal-600 to-cyan-700 text-white pt-32 pb-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative text-white pt-48 pb-20 overflow-hidden">
+        {/* Background Image - Replace src with your image path */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/donateGallery/imp4.jpeg"
+            alt="Articles Hero Background"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Dark Overlay to ensure text readability */}
+          <div className="absolute inset-0  " />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <BookOpen className="w-16 h-16 mx-auto mb-6" />
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+            <BookOpen className="w-16 h-16 mx-auto mb-6 text-teal-400" />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-lg">
               Articles & Resources
             </h1>
-            <p className="text-xl sm:text-2xl text-teal-50 max-w-3xl mx-auto">
+            <p className="text-xl sm:text-2xl text-teal-50 max-w-3xl mx-auto drop-shadow-md">
               Explore our collection of articles to deepen your understanding of
               Islam and strengthen your faith.
             </p>

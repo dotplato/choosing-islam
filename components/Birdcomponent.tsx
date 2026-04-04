@@ -23,7 +23,7 @@ export default function Birdcomponent() {
       href="https://wa.me/923052087083"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed right-4 bottom-4 md:right-8 md:bottom-8 z-30 group cursor-pointer"
+      className="fixed right-4 bottom-4 md:right-8 md:bottom-8 z-[100] group cursor-pointer"
     >
       {/* Tooltip - Always visible */}
       <div className="absolute -top-14 right-0 bg-[#25D366] text-white px-4 py-2 rounded-xl shadow-xl transition-all duration-300 transform whitespace-nowrap text-sm font-bold flex items-center gap-2 border-2 border-white opacity-100 translate-y-0">

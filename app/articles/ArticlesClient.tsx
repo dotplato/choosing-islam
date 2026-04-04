@@ -213,7 +213,7 @@ export default function ArticlesClient({
   return (
     <>
       {/* Tabs and Filters Section */}
-      <section className="bg-white border-b sticky top-0 z-30 shadow-sm py-4">
+      <section className="bg-white border-b py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-6">
             <Tabs

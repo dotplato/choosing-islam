@@ -10,7 +10,6 @@ import {
   Info,
   CreditCard,
 } from "lucide-react";
-import emailjs from "@emailjs/browser";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -51,46 +50,36 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
     selectedAmount !== null
       ? selectedAmount
       : customAmount && !isNaN(Number(customAmount))
-      ? Number(customAmount)
-      : 0;
+        ? Number(customAmount)
+        : 0;
 
   const nextStep = async () => {
     if (step === 2 && currentAmount <= 0) return;
     if (step === 3) {
       setIsLoading(true);
       try {
-        const templateParams = {
-          from_name: `${formData.firstName || "Anonymous"} ${formData.lastName || "Donor"}`,
-          fname: formData.firstName || "Anonymous",
-          lname: formData.lastName || "Donor",
-          first_name: formData.firstName || "Anonymous",
-          last_name: formData.lastName || "Donor",
-          firstName: formData.firstName || "Anonymous",
-          lastName: formData.lastName || "Donor",
-          from_email: formData.email || "No email provided",
-          user_email: formData.email || "No email provided",
-          sender_email: formData.email || "No email provided",
-          email: formData.email || "No email provided",
-          reply_to: formData.email || "No email provided",
-          bank_name: formData.bankName || "Not provided",
-          account_number: formData.accountNumber || "Not provided",
-          amount: currentAmount,
-          frequency: frequency,
-          to_name: "Islamic Dawah Center of Belize",
-        };
+        const response = await fetch("/api/donate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            amount: currentAmount,
+            frequency,
+          }),
+        });
 
-        const result = await emailjs.send(
-          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
-          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "YOUR_TEMPLATE_ID",
-          templateParams,
-          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
-        );
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to send donation request");
+        }
 
         setIsSuccess(true);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Failed to send email:", error);
         alert(
-          "There was an error processing your request. Please check the browser console for details."
+          `There was an error processing your request: ${error.message}. Please check your server configuration.`,
         );
       } finally {
         setIsLoading(false);
@@ -117,14 +106,14 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                   step === s.id
                     ? "bg-teal-600 w-6"
                     : s.id < step
-                    ? "bg-teal-400"
-                    : "bg-gray-300"
+                      ? "bg-teal-400"
+                      : "bg-gray-300",
                 )}
               />
               <span
                 className={cn(
                   "text-[10px] sm:text-xs font-semibold uppercase tracking-wider",
-                  step === s.id ? "text-teal-600" : "text-gray-400"
+                  step === s.id ? "text-teal-600" : "text-gray-400",
                 )}
               >
                 {s.name}
@@ -148,9 +137,10 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                 Donation Details Sent!
               </h2>
               <p className="text-gray-600 max-w-sm mx-auto">
-                Thank you{formData.firstName ? `, ${formData.firstName}` : ""}! We have received your
-                donation request of ${currentAmount} ({frequency}). Our team
-                will contact you shortly with payment instructions.
+                Thank you{formData.firstName ? `, ${formData.firstName}` : ""}!
+                We have received your donation request of ${currentAmount} (
+                {frequency}). Our team will contact you shortly with payment
+                instructions.
               </p>
             </div>
             <div className="pt-4">
@@ -186,19 +176,29 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                   </div>
                   <div className="space-y-3 text-sm sm:text-base">
                     <div className="flex justify-between border-b border-teal-100 pb-2">
-                      <span className="text-teal-600 font-medium">Bank Name</span>
+                      <span className="text-teal-600 font-medium">
+                        Bank Name
+                      </span>
                       <span className="font-bold">Heritage Bank Limited</span>
                     </div>
                     <div className="flex justify-between border-b border-teal-100 pb-2">
-                      <span className="text-teal-600 font-medium">Account Name</span>
+                      <span className="text-teal-600 font-medium">
+                        Account Name
+                      </span>
                       <span className="font-bold">Islamic Dawah Center </span>
                     </div>
                     <div className="flex justify-between border-b border-teal-100 pb-2">
-                      <span className="text-teal-600 font-medium">Account Number</span>
-                      <span className="font-bold tracking-wider text-teal-900">9141575</span>
+                      <span className="text-teal-600 font-medium">
+                        Account Number
+                      </span>
+                      <span className="font-bold tracking-wider text-teal-900">
+                        9141575
+                      </span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-teal-600 font-medium">Account Type</span>
+                      <span className="text-teal-600 font-medium">
+                        Account Type
+                      </span>
                       <span className="font-bold">Savings</span>
                     </div>
                   </div>
@@ -252,11 +252,12 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
                   <Info className="w-5 h-5 text-gray-400 mt-0.5" />
                   <p className="text-sm text-gray-600 leading-relaxed">
-                    Please enter the details of the account you used for the transfer. This helps us verify your donation.
+                    Please enter the details of the account you used for the
+                    transfer. This helps us verify your donation.
                   </p>
                 </div>
               </div>
@@ -297,22 +298,23 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                   </Label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {PRESET_AMOUNTS.map((amount) => (
-                      <button
+                      <Button
                         key={amount}
                         type="button"
+                        variant="ghost"
                         onClick={() => {
                           setSelectedAmount(amount);
                           setCustomAmount("");
                         }}
                         className={cn(
-                          "py-4 px-2 rounded-xl border-2 font-bold text-lg transition-all transform active:scale-95 cursor-pointer",
+                          "h-auto py-4 px-2 rounded-xl border-2 font-bold text-lg transition-all transform active:scale-95 cursor-pointer hover:bg-transparent",
                           selectedAmount === amount
                             ? "border-teal-600 bg-teal-50 text-teal-700 shadow-md"
-                            : "border-gray-100 bg-white hover:border-teal-200 hover:bg-gray-50 text-gray-600"
+                            : "border-gray-100 bg-white hover:border-teal-200 hover:bg-gray-50 text-gray-600",
                         )}
                       >
                         ${amount}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -346,7 +348,8 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
               <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
                 <div className="flex items-center gap-2 p-4 bg-teal-50 text-teal-700 rounded-xl border border-teal-100 text-sm font-medium">
                   <Info className="w-4 h-4" />
-                  This section is optional. You can complete your donation anonymously.
+                  This section is optional. You can complete your donation
+                  anonymously.
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -429,7 +432,8 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                 onClick={nextStep}
                 disabled={
                   isLoading ||
-                  (step === 1 && (!formData.bankName || !formData.accountNumber)) ||
+                  (step === 1 &&
+                    (!formData.bankName || !formData.accountNumber)) ||
                   (step === 2 && currentAmount <= 0)
                 }
                 className="h-14 flex-[2] bg-teal-600 hover:bg-teal-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-teal-100 transition-all hover:-translate-y-1 active:translate-y-0 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
@@ -441,7 +445,11 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                   </div>
                 ) : (
                   <>
-                    {step === 3 ? "Complete Donation" : "Next Step"}
+                    {step === 1
+                      ? "Donate"
+                      : step === 3
+                        ? "Complete Donation"
+                        : "Next Step"}{" "}
                     {step < 3 && <ChevronRight className="w-5 h-5 ml-1" />}
                   </>
                 )}

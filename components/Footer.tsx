@@ -32,12 +32,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div>
-            <div className="flex items-center space-x-2 mb-4">
+            <div className="flex items-center mb-4 bg-white p-2 rounded-xl w-fit">
               <Image
                 src="/belize-logo.png" // Replace with your actual logo path
                 alt="Choosing Islam Logo"
-                width={200} // set your desired width
-                height={200} // set your desired height
+                width={180} // set your desired width
+                height={180} // set your desired height
                 className="object-contain"
               />
             </div>

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Target,
   Eye,
@@ -14,6 +15,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ValuesSection from "@/components/ValuesSection";
 
 export default function About() {
   const values = [
@@ -47,36 +49,7 @@ export default function About() {
     },
   ];
 
-  const team = [
-    {
-      name: "Dr. Sarah Johnson",
-      role: "Executive Director",
-      image:
-        "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "15+ years of experience in interfaith dialogue and community development.",
-    },
-    {
-      name: "Ahmed Hassan",
-      role: "Education Director",
-      image:
-        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Specialized in curriculum development and educational outreach programs.",
-    },
-    {
-      name: "Maria Rodriguez",
-      role: "Community Relations",
-      image:
-        "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Expert in building bridges between diverse communities and fostering dialogue.",
-    },
-    {
-      name: "David Chen",
-      role: "Program Coordinator",
-      image:
-        "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400",
-      bio: "Manages volunteer programs and coordinates community events nationwide.",
-    },
-  ];
+
 
   const stats = [
     { number: "15+", label: "Years of Service" },
@@ -89,12 +62,13 @@ export default function About() {
     <>
       <section className="relative text-white py-20 overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          <Image
+            src="/hero/bg-hero-about.jpeg"
             alt="Community gathering"
+            fill
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-600/80 via-cyan-600/80 to-blue-600/80"></div>
+          <div className="absolute inset-0"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
@@ -135,23 +109,22 @@ export default function About() {
                 </h2>
               </div>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                Islamic Dawah Center of Belize is dedicated to fostering
-                understanding, education, and dialogue about faith and
-                spirituality. We provide accessible, accurate, and comprehensive
-                resources to help individuals explore their spiritual journey
-                while building bridges between diverse communities.
+                To create a welcoming and inclusive environment where individuals
+                from all backgrounds—youth and adults, men and women—can explore
+                the teachings of Islam in a supportive setting. The center is dedicated
+                to encouraging meaningful dialogue, intellectual growth, and moral development
+                while strengthening
+
+                faith, inspiring learning, and building a compassionate and united community.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Through our programs, resources, and community initiatives, we
-                strive to create a world where knowledge dispels misconceptions,
-                compassion replaces prejudice, and unity transcends differences.
-              </p>
+
             </div>
-            <div className="relative">
-              <img
-                src="https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=800"
+            <div className="relative aspect-square">
+              <Image
+                src="/mission.jpeg"
                 alt="Community gathering"
-                className="rounded-2xl shadow-2xl"
+                fill
+                className="rounded-2xl shadow-2xl object-cover"
               />
               <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl -z-10"></div>
             </div>
@@ -162,11 +135,12 @@ export default function About() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1 relative">
-              <img
-                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
+            <div className="order-2 lg:order-1 relative aspect-square">
+              <Image
+                src="/vision.jpeg"
                 alt="Vision"
-                className="rounded-2xl shadow-2xl"
+                fill
+                className="rounded-2xl shadow-2xl object-cover"
               />
               <div className="absolute -top-6 -right-6 w-48 h-48 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl -z-10"></div>
             </div>
@@ -178,16 +152,11 @@ export default function About() {
                 <h2 className="text-3xl font-bold text-gray-900">Our Vision</h2>
               </div>
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                We envision a world where people of all backgrounds can engage
-                in meaningful dialogue about faith, spirituality, and values
-                without fear or prejudice. A world where education and
-                understanding form the foundation for peace and harmony.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Through our work, we aspire to be a leading resource for
-                spiritual education and interfaith understanding, empowering
-                individuals to make informed decisions about their spiritual
-                journey while respecting the diversity of human experience.
+                To establish a vibrant and dynamic Islamic Dawah Center that
+                becomes a leading source of authentic Islamic knowledge, cultural awareness,
+                and personal development. The center aims to serve all Belizeans by fostering
+                a deeper understanding of Islam, promoting harmony,
+                and nurturing a community grounded in faith, learning, and mutual respect.
               </p>
             </div>
           </div>
@@ -204,37 +173,16 @@ export default function About() {
               The principles that guide our work and define who we are
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <Card
-                key={index}
-                className="border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-              >
-                <CardHeader>
-                  <div
-                    className={`w-14 h-14 rounded-xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-4`}
-                  >
-                    <value.icon className="w-7 h-7 text-white" />
-                  </div>
-                  <CardTitle className="text-xl">{value.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 leading-relaxed">
-                    {value.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
         </div>
       </section>
 
+      <ValuesSection />
+
       <section className="py-16 text-black bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Users className="w-16 h-16 mx-auto mb-6" />
+          <Heart className="w-16 h-16 mx-auto mb-6 text-teal-600" />
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            Join Our Community
+            Donate to Cause
           </h2>
           <p className="text-xl text-black mb-8 leading-relaxed">
             Whether you're seeking knowledge, looking to volunteer, or wanting
@@ -243,23 +191,23 @@ export default function About() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
 
-            <Link href="/volunteer">
+            <Link href="/donate">
               <Button
                 size="lg"
                 className="bg-teal-600 hover:bg-teal-700 text-white"
               >
-                Become a Volunteer
+                Donate Now
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
 
-            <Link href="/donate">
+            <Link href="/articles">
               <Button
                 size="lg"
                 variant="outline"
-                className="border-1 border-white text-teal-700 hover:bg-white/10"
+                className="border-teal-600 text-teal-700 hover:bg-teal-50"
               >
-                Support Our Work
+                Read about Islam
               </Button>
             </Link>
 

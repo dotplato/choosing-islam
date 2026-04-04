@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function ValuesSection() {
   return (
     <section className="py-24 bg-white overflow-hidden">
@@ -27,9 +29,10 @@ export default function ValuesSection() {
             <div className="flex-1 relative group animate-in fade-in slide-in-from-right-8 duration-1000">
               <div className="absolute -inset-4 bg-teal-50 rounded-3xl -rotate-2 group-hover:rotate-0 transition-transform duration-500" />
               <div className="relative aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-8 border-white">
-                <img
+                <Image
                   src="/values/dawah1.jpeg"
                   alt="Respect"
+                  fill
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -58,9 +61,10 @@ export default function ValuesSection() {
             <div className="flex-1 relative group animate-in fade-in slide-in-from-left-8 duration-1000">
               <div className="absolute -inset-4 bg-teal-50 rounded-3xl rotate-2 group-hover:rotate-0 transition-transform duration-500" />
               <div className="relative aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-8 border-white">
-                <img
+                <Image
                   src="/values/img4.jpeg"
                   alt="Care"
+                  fill
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -91,9 +95,10 @@ export default function ValuesSection() {
             <div className="flex-1 relative group animate-in fade-in slide-in-from-right-8 duration-1000">
               <div className="absolute -inset-4 bg-teal-50 rounded-3xl -rotate-2 group-hover:rotate-0 transition-transform duration-500" />
               <div className="relative aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl border-8 border-white">
-                <img
+                <Image
                   src="/values/edu.jpeg"
                   alt="Success"
+                  fill
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>

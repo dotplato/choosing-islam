@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { Calendar, Clock, User, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -81,9 +82,10 @@ export default function ArticlesClient({
               <Link key={article.id} href={`/articles/${article.slug}`}>
                 <Card className="h-full hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden">
                   <div className="aspect-video relative overflow-hidden">
-                    <img
+                    <Image
                       src={article.image}
                       alt={article.title}
+                      fill
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4">

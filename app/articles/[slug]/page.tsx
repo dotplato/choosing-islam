@@ -1,5 +1,6 @@
 import { Calendar, Clock, User, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getArticleBySlug, getArticles } from "@/lib/contentful";
@@ -45,14 +46,17 @@ const richTextOptions = {
       const { title, file } = node.data.target.fields;
       if (!file) return null;
       return (
-        <div className="my-8 rounded-xl overflow-hidden shadow-lg">
-          <img
+        <div className="my-8 rounded-xl overflow-hidden shadow-lg relative aspect-video">
+          <Image
             src={`https:${file.url}`}
             alt={title || "Article Image"}
-            className="w-full h-auto object-cover"
+            fill
+            className="w-full h-full object-cover"
           />
           {title && (
-            <p className="text-center text-sm text-gray-500 mt-2">{title}</p>
+            <p className="absolute bottom-2 left-0 right-0 text-center text-sm text-white bg-black/50 py-1">
+              {title}
+            </p>
           )}
         </div>
       );
@@ -210,10 +214,12 @@ export default async function ArticlePage({
     <>
       {/* Hero Section with Featured Image */}
       <section className="relative h-[400px] bg-gray-900">
-        <img
+        <Image
           src={articleData.image}
           alt={articleData.title}
+          fill
           className="w-full h-full object-cover opacity-60"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
@@ -309,9 +315,10 @@ export default async function ArticlePage({
                 >
                   <Card className="h-full hover:shadow-xl transition-all duration-300 cursor-pointer group">
                     <div className="aspect-video relative overflow-hidden">
-                      <img
+                      <Image
                         src={relatedArticle.image}
                         alt={relatedArticle.title}
+                        fill
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>

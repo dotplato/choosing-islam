@@ -24,7 +24,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
-import emailjs from "@emailjs/browser";
+import Link from "next/link";
+import TeamSection from "@/components/TeamSection";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -46,37 +47,26 @@ export default function Contact() {
     setFormStatus("idle");
 
     try {
-      const templateParams = {
-        from_name: formData.name,
-        name: formData.name,
-        user_name: formData.name,
-        sender_name: formData.name,
-        from_email: formData.email,
-        user_email: formData.email,
-        email: formData.email,
-        reply_to: formData.email,
-        phone: formData.phone,
-        subject: formData.subject,
-        message: formData.message,
-        to_name: "Islamic Dawah Center of Belize",
-      };
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      console.log("Sending contact form to EmailJS:", templateParams);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to send message");
+      }
 
-      const result = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "YOUR_SERVICE_ID",
-        process.env.NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID ||
-          "YOUR_TEMPLATE_ID",
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY"
-      );
-
-      console.log("EmailJS Result:", result.text);
       setFormStatus("success");
       setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to send contact email:", error);
       setFormStatus("error");
+      // Optional: show more specific error to user
+      alert(`Error: ${error.message}`);
     } finally {
       setIsLoading(false);
       setTimeout(() => setFormStatus("idle"), 5000);
@@ -97,6 +87,7 @@ export default function Contact() {
       detail: "info@faithconnect.org",
       color: "from-teal-500 to-cyan-600",
       action: "Send Email",
+      href: "mailto:info@faithconnect.org",
     },
     {
       icon: Phone,
@@ -105,6 +96,7 @@ export default function Contact() {
       detail: "1-800-123-4567",
       color: "from-cyan-500 to-blue-600",
       action: "Call Now",
+      href: "tel:1-800-123-4567",
     },
     {
       icon: MapPin,
@@ -114,6 +106,7 @@ export default function Contact() {
       detail: "Find a location near you",
       color: "from-blue-500 to-teal-600",
       action: "Request Tour",
+      href: "#contact-form",
     },
     {
       icon: BookOpen,
@@ -122,6 +115,7 @@ export default function Contact() {
       detail: "Free educational materials",
       color: "from-teal-600 to-cyan-700",
       action: "Order Now",
+      href: "#contact-form",
     },
   ];
 
@@ -184,8 +178,20 @@ export default function Contact() {
                   <p className="text-teal-600 font-semibold mb-4">
                     {method.detail}
                   </p>
-                  <Button className="w-full bg-primary hover:bg-primary/90">
-                    {method.action}
+                  <Button
+                    asChild
+                    className="w-full bg-primary hover:bg-primary/90"
+                    onClick={() => {
+                      if (method.href === "#contact-form") {
+                        const subject =
+                          method.action === "Request Tour"
+                            ? "Requesting a Mosque Tour"
+                            : "Order Free Literature";
+                        setFormData((prev) => ({ ...prev, subject }));
+                      }
+                    }}
+                  >
+                    <Link href={method.href}>{method.action}</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -195,7 +201,7 @@ export default function Contact() {
       </section>
 
       {/* Main Contact Form Section */}
-      <section className="py-16 bg-gray-50">
+      <section id="contact-form" className="py-16 bg-gray-50 scroll-mt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
@@ -342,116 +348,8 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Additional Information Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Office Hours */}
-            <Card className="border-2">
-              <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center mb-4">
-                  <Clock className="w-6 h-6 text-white" />
-                </div>
-                <CardTitle>Office Hours</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-gray-600">
-                  <p>
-                    <strong>Phone Support:</strong> 24/7
-                  </p>
-                  <p>
-                    <strong>Email Response:</strong> Within 24 hours
-                  </p>
-                  <p>
-                    <strong>Office:</strong> Mon-Fri, 9am-5pm EST
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Social Media */}
-            <Card className="border-2">
-              <CardHeader>
-                <CardTitle>Connect With Us</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-4">
-                  Follow us on social media for updates and inspiration
-                </p>
-                <div className="flex space-x-4">
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary/90 transition-colors"
-                  >
-                    <Facebook className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary/90 transition-colors"
-                  >
-                    <Youtube className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary/90 transition-colors"
-                  >
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary/90 transition-colors"
-                  >
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Quick Links */}
-            <Card className="border-2">
-              <CardHeader>
-                <CardTitle>Quick Links</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="/about"
-                      className="text-teal-600 hover:text-teal-700 font-medium"
-                    >
-                      About Us
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/islam"
-                      className="text-teal-600 hover:text-teal-700 font-medium"
-                    >
-                      Learn About Islam
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/donate"
-                      className="text-teal-600 hover:text-teal-700 font-medium"
-                    >
-                      Donate
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="/"
-                      className="text-teal-600 hover:text-teal-700 font-medium"
-                    >
-                      FAQ
-                    </a>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
+      {/* Connect With Us - Team Section */}
+      <TeamSection title="Connect With Us" />
     </>
   );
 }

@@ -7,6 +7,7 @@ import {
   Book,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Hero from "@/components/Hero";
+import ImpactGallery from "@/components/ImpactGallery";
 import { StatsGrid } from "@/components/StatsGrid";
 import DonateForm from "@/components/donate/DonateForm";
 import ValuesSection from "@/components/ValuesSection";
@@ -95,9 +97,10 @@ export default async function Home() {
                 className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer block"
               >
                 <div className="aspect-[4/3] relative">
-                  <img
+                  <Image
                     src={topic.image}
                     alt={topic.title}
+                    fill
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
@@ -137,30 +140,9 @@ export default async function Home() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            {/* Left side: 3x3 Image Grid */}
+            {/* Left side: Interactive Image Gallery */}
             <div className="order-2 lg:order-1">
-              <div className="grid grid-cols-3 gap-3 md:gap-4">
-                {[
-                  "/impact/i1.jpeg",
-                  "/impact/i2.jpeg",
-                  "/impact/i3.jpeg",
-                  "/impact/i4.jpeg",
-                 "/impact/i5.jpeg",
-                  "/impact/i6.jpeg",
-                  "/impact/i7.jpeg",
-                  "/impact/i8.jpeg",
-                  "/impact/i9.jpeg",
-                ].map((src, i) => (
-                  <div key={i} className="aspect-square rounded-2xl overflow-hidden shadow-2xl group relative">
-                    <img 
-                      src={src} 
-                      alt={`Gallery image ${i + 1}`} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                    />
-                    <div className="absolute inset-0 bg-teal-900/20 group-hover:bg-transparent transition-colors duration-300" />
-                  </div>
-                ))}
-              </div>
+              <ImpactGallery />
             </div>
 
             {/* Right side: Impact Stats */}
@@ -177,13 +159,7 @@ export default async function Home() {
               
               <StatsGrid />
 
-              <div className="pt-6">
-                <Link href="/donate">
-                  <Button size="lg" className="bg-white text-teal-700 hover:bg-teal-50 px-8 py-6 text-lg font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1">
-                    Support Our Mission
-                  </Button>
-                </Link>
-              </div>
+              
             </div>
           </div>
 
@@ -264,9 +240,10 @@ export default async function Home() {
                     className="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-2 border-gray-100 hover:border-teal-500"
                   >
                     <div className="aspect-[4/3] relative overflow-hidden">
-                      <img
+                      <Image
                         src={thumbnailUrl}
                         alt={article.fields.title}
+                        fill
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-3 left-3">
@@ -340,9 +317,10 @@ export default async function Home() {
                     className="group bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
                   >
                     <div className="aspect-[16/9] relative overflow-hidden">
-                      <img
+                      <Image
                         src={thumbnailUrl}
                         alt={article.fields.title}
+                        fill
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4">
@@ -399,21 +377,22 @@ export default async function Home() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
-            Ready to Begin Your Journey?
-          </h2>
+A Charity That Never Ends          </h2>
           <p className="text-xl text-gray-600 mb-8">
-            Join thousands of others who have found knowledge, community, and
-            spiritual growth through Islamic Dawah Center of Belize.
+            Be part of something lasting.< br />
+Support a center that spreads knowledge, strengthens faith, and serves the community. Your 
+donation is a continuous charity that will benefit you in this life and the Hereafter.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/about">
+            <Link href="/donate">
               <Button
                 size="lg"
  className="bg-teal-600 hover:bg-teal-700 text-white"              >
-                Learn About Us
+               Donation
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
+            <Link href="/articles">
             <Button
               size="lg"
               variant="outline"
@@ -421,6 +400,7 @@ export default async function Home() {
             >
               Browse Resources
             </Button>
+            </Link>
           </div>
         </div>
       </section>

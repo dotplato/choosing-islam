@@ -14,6 +14,7 @@ import {
   Youtube,
   ChevronDown,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
@@ -80,21 +81,24 @@ export default function Header({
             <NavLink href="/">Home</NavLink>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/donate">Donate</NavLink>
-            <NavLink href="/articles">Articles</NavLink>
+            <NavLink href="/articles">Articles and News</NavLink>
             <div className="relative">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-1 text-base font-medium text-gray-800 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase">
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-1 text-base font-medium text-gray-800 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase h-auto p-0 hover:bg-transparent"
+                  >
                     Quran <ChevronDown className="w-4 h-4" />
-                  </button>
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
-                  className="w-[300px] border-t-4 border-[#1B8AB2] rounded-none p-0"
+                  className="w-[300px] border-t-4 border-teal-600 rounded-none p-0"
                 >
                   <DropdownMenuItem
                     asChild
-                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                    className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-teal-50 focus:text-teal-600 cursor-pointer"
                   >
                     <Link href="https://www.clearquran.com/">
                       Read the Quran
@@ -104,7 +108,7 @@ export default function Header({
                     <DropdownMenuItem
                       key={article.sys.id}
                       asChild
-                      className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                      className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-teal-50 focus:text-teal-600 cursor-pointer"
                     >
                       <Link
                         href={`/articles/${article.fields.slug}`}
@@ -136,7 +140,9 @@ export default function Header({
                   className="w-64"
                   autoFocus
                 />
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   type="button"
                   onClick={() => {
                     setSearchOpen(false);
@@ -145,15 +151,17 @@ export default function Header({
                   className="p-2 hover:bg-gray-100 rounded-md transition-colors"
                 >
                   <X className="w-5 h-5 text-gray-800" />
-                </button>
+                </Button>
               </form>
             ) : (
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => setSearchOpen(true)}
                 className="p-2 hover:bg-gray-100 rounded-md transition-colors"
               >
                 <Search className="w-5 h-5 text-gray-800" />
-              </button>
+              </Button>
             )}
 
             {/* Social Icons */}
@@ -174,7 +182,9 @@ export default function Header({
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             className="md:hidden p-2 text-gray-800"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -183,7 +193,7 @@ export default function Header({
             ) : (
               <Menu className="w-6 h-6" />
             )}
-          </button>
+          </Button>
         </div>
 
         {/* Secondary Desktop Navbar - Categories */}
@@ -192,20 +202,23 @@ export default function Header({
             <div key={cat.sys.id} className="relative">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-1 text-sm font-semibold text-gray-600 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase tracking-wider">
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-1 text-sm font-semibold text-gray-600 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase tracking-wider h-auto p-0 hover:bg-transparent"
+                  >
                     {cat.fields.title} <ChevronDown className="w-3 h-3" />
-                  </button>
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
-                  className="w-[300px] border-t-4 border-[#1B8AB2] rounded-none p-0"
+                  className="w-[300px] border-t-4 border-teal-600 rounded-none p-0"
                 >
                   {cat.articles.length > 0 ? (
                     cat.articles.map((article) => (
                       <DropdownMenuItem
                         key={article.sys.id}
                         asChild
-                        className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-[#EBF7FB] focus:text-[#1B8AB2] cursor-pointer"
+                        className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-teal-50 focus:text-teal-600 cursor-pointer"
                       >
                         <Link
                           href={`/articles/${article.fields.slug}`}
@@ -254,9 +267,10 @@ export default function Header({
 
               {navbarCategories.map((cat) => (
                 <div key={cat.sys.id}>
-                  <button
+                  <Button
+                    variant="ghost"
                     onClick={() => toggleMobileCategory(cat.sys.id)}
-                    className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left uppercase"
+                    className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left uppercase h-auto justify-between"
                   >
                     {cat.fields.title}
                     <ChevronDown
@@ -266,7 +280,7 @@ export default function Header({
                           : ""
                       }`}
                     />
-                  </button>
+                  </Button>
                   {openMobileCategories.includes(cat.sys.id) && (
                     <div className="pl-6 flex flex-col space-y-1 mt-1 border-l-2 border-gray-100 ml-4">
                       {cat.articles && cat.articles.length > 0 ? (
@@ -289,9 +303,10 @@ export default function Header({
                 </div>
               ))}
 
-              <button
+              <Button
+                variant="ghost"
                 onClick={() => setMobileQuranOpen(!mobileQuranOpen)}
-                className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left uppercase"
+                className="flex items-center justify-between px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors w-full text-left uppercase h-auto justify-between"
               >
                 Quran
                 <ChevronDown
@@ -299,7 +314,7 @@ export default function Header({
                     mobileQuranOpen ? "rotate-180" : ""
                   }`}
                 />
-              </button>
+              </Button>
 
               {mobileQuranOpen && (
                 <div className="pl-6 flex flex-col space-y-1 mt-1 border-l-2 border-gray-100 ml-4">

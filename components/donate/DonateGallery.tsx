@@ -2,49 +2,50 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const GALLERY_IMAGES = [
   {
-    src: "/gallery/reflective.png",
+    src: "/donateGallery/imp1.jpeg",
     alt: "Reflective person",
-    title: "Looking for a NEW WAY OF LIFE?",
+    title: "",
     gridClass: "col-span-1 row-span-1",
   },
   {
-    src: "/gallery/interview.png",
+    src: "/donateGallery/imp7.jpeg",
     alt: "Interview",
-    title: "Got Questions? Get Answers.",
+    title: "",
     gridClass: "col-span-1 row-span-1",
   },
   {
-    src: "/gallery/interview.png",
+    src: "/donateGallery/imp3.jpeg",
     alt: "Interview",
-    title: "Got Questions? Get Answers.",
+    title: "",
     gridClass: "col-span-1 row-span-1",
   },
   {
-    src: "/gallery/dawah_booth.png",
+    src: "/donateGallery/imp4.jpeg",
     alt: "Dawah Booth",
-    title: "Public Outreach",
+    title: "",
     gridClass: "col-span-1 row-span-2",
   },
   {
-    src: "/gallery/mosque.png",
+    src: "/donateGallery/imp5.jpeg",
     alt: "Mosque",
-    title: "Want to Visit a Mosque?",
+    title: "",
     gridClass: "col-span-1 row-span-1",
   },
   {
-    src: "/gallery/mosque.png",
+    src: "/donateGallery/imp6.jpeg",
     alt: "Mosque",
-    title: "Want to Visit a Mosque?",
+    title: "",
     gridClass: "col-span-1 row-span-1",
   },
   {
-    src: "/gallery/volunteers.png",
+    src: "/donateGallery/imp2.jpeg",
     alt: "Volunteers",
-    title: "Community Growth",
+    title: "",
     gridClass: "col-span-2 row-span-1",
   },
   
@@ -124,32 +125,38 @@ export function DonateGallery() {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95"
           onClick={closeLightbox}
         >
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={closeLightbox}
-            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 text-white hover:bg-white/10 rounded-full transition-colors z-10"
+            className="absolute top-4 right-4 md:top-6 md:right-6 p-2 md:p-3 text-white hover:bg-white/10 rounded-full transition-colors z-10 h-auto w-auto hover:text-white"
           >
             <X className="w-6 h-6 md:w-8 md:h-8" />
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={(e) => {
               e.stopPropagation();
               showPrev();
             }}
-            className="absolute left-2 md:left-6 p-3 md:p-4 text-white hover:bg-white/10 rounded-full transition-colors"
+            className="absolute left-2 md:left-6 p-3 md:p-4 text-white hover:bg-white/10 rounded-full transition-colors h-auto w-auto hover:text-white"
           >
             <ChevronLeft className="w-8 h-8 md:w-10 md:h-10" />
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={(e) => {
               e.stopPropagation();
               showNext();
             }}
-            className="absolute right-2 md:right-6 p-3 md:p-4 text-white hover:bg-white/10 rounded-full transition-colors"
+            className="absolute right-2 md:right-6 p-3 md:p-4 text-white hover:bg-white/10 rounded-full transition-colors h-auto w-auto hover:text-white"
           >
             <ChevronRight className="w-8 h-8 md:w-10 md:h-10" />
-          </button>
+          </Button>
 
           <div
             className="relative w-full h-full max-w-6xl max-h-[85vh] mx-4 flex items-center justify-center"

@@ -3,7 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getArticleBySlug, getArticles } from "@/lib/contentful";
+import {
+  getArticleBySlug,
+  getArticles,
+  getNews,
+} from "@/lib/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, MARKS, INLINES } from "@contentful/rich-text-types";
 import ShareButton from "./ShareButton";
@@ -42,6 +46,25 @@ const richTextOptions = {
         {children}
       </blockquote>
     ),
+    [INLINES.HYPERLINK]: (node: any, children: React.ReactNode) => {
+      const uri = node.data.uri;
+      const isYouTube = uri.includes("youtube.com") || uri.includes("youtu.be");
+
+      if (isYouTube) {
+        return <YouTubeEmbed url={uri} />;
+      }
+
+      return (
+        <a
+          href={uri}
+          className="text-teal-600 hover:underline font-medium"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      );
+    },
     [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
       const { title, file } = node.data.target.fields;
       if (!file) return null;
@@ -141,12 +164,19 @@ const richTextOptions = {
   },
 };
 
-// Generate static params for all articles
+// Generate static params for all articles and news
 export async function generateStaticParams() {
-  const articles = await getArticles();
-  return articles.map((article) => ({
-    slug: article.fields.slug,
-  }));
+  const [articles, news] = await Promise.all([
+    getArticles(),
+    getNews().catch(() => []),
+  ]);
+  
+  const allItems = [
+    ...articles.map((a) => ({ slug: a.fields.slug })),
+    ...news.map((n) => ({ slug: n.fields.slug })),
+  ];
+
+  return allItems;
 }
 
 export default async function ArticlePage({
@@ -213,7 +243,7 @@ export default async function ArticlePage({
   return (
     <>
       {/* Hero Section with Featured Image */}
-      <section className="relative h-[400px] bg-gray-900">
+      <section className="relative min-h-[450px] bg-gray-900 pt-20">
         <Image
           src={articleData.image}
           alt={articleData.title}

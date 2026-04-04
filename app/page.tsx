@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Hero from "@/components/Hero";
+import HeroCarousel from "@/components/HeroCarousel";
 import ImpactGallery from "@/components/ImpactGallery";
 import { StatsGrid } from "@/components/StatsGrid";
 import DonateForm from "@/components/donate/DonateForm";
@@ -58,13 +58,13 @@ export default async function Home() {
           description:
             "Practical guidance for incorporating faith into everyday life",
           image:
-            "https://images.pexels.com/photos/1001897/pexels-photo-1001897.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1001897/pexels-photo-1001897.jpeg?auto=compress&cs=tinysrgb&w=100",
         },
         {
           title: "Community & Service",
           description: "Building connections and serving humanity together",
           image:
-            "https://images.pexels.com/photos/1157557/pexels-photo-1157557.jpeg?auto=compress&cs=tinysrgb&w=800",
+            "https://images.pexels.com/photos/1157557/pexels-photo-1157557.jpeg?auto=compress&cs=tinysrgb&w=100",
         },
         {
           title: "Spiritual Development",
@@ -76,7 +76,7 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
+      <HeroCarousel />
 
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

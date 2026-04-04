@@ -1,5 +1,10 @@
 import { createClient } from "contentful";
-import type { ContentfulArticle, ContentfulCategory } from "@/types/contentful";
+import type {
+  ContentfulArticle,
+  ContentfulCategory,
+  ContentfulVideo,
+  ContentfulNews,
+} from "@/types/contentful";
 
 if (!process.env.CONTENTFUL_SPACE_ID || !process.env.CONTENTFUL_ACCESS_TOKEN) {
   throw new Error(
@@ -43,21 +48,54 @@ export async function getArticles(): Promise<ContentfulArticle[]> {
   return response.items as unknown as ContentfulArticle[];
 }
 
+export async function getVideos(): Promise<ContentfulVideo[]> {
+  const response = await client.getEntries({
+    content_type: "video",
+    order: ["-fields.publishDate"] as any,
+    include: 2,
+  });
+
+  return response.items as unknown as ContentfulVideo[];
+}
+
+export async function getNews(): Promise<ContentfulNews[]> {
+  const response = await client.getEntries({
+    content_type: "news",
+    order: ["-fields.publishDate"] as any,
+    include: 2,
+  });
+
+  return response.items as unknown as ContentfulNews[];
+}
+
 export async function getArticleBySlug(
   slug: string,
-): Promise<ContentfulArticle | null> {
-  const response = await client.getEntries({
+): Promise<ContentfulArticle | ContentfulNews | null> {
+  // First try to find in articles
+  const articleResponse = await client.getEntries({
     content_type: "article",
     "fields.slug": slug,
-    include: 3, // Increased to fetch embedded entries like videos
+    include: 3,
     limit: 1,
   });
 
-  if (response.items.length === 0) {
-    return null;
+  if (articleResponse.items.length > 0) {
+    return articleResponse.items[0] as unknown as ContentfulArticle;
   }
 
-  return response.items[0] as unknown as ContentfulArticle;
+  // If not found, try news
+  const newsResponse = await client.getEntries({
+    content_type: "news",
+    "fields.slug": slug,
+    include: 3,
+    limit: 1,
+  });
+
+  if (newsResponse.items.length > 0) {
+    return newsResponse.items[0] as unknown as ContentfulNews;
+  }
+
+  return null;
 }
 
 export async function getRecentArticles(

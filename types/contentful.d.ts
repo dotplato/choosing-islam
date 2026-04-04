@@ -56,6 +56,35 @@ export interface ContentfulImageEntry {
   };
 }
 
+export interface ContentfulVideo {
+  sys: {
+    id: string;
+  };
+  fields: {
+    title: string;
+    description: string;
+    thumbnail: ContentfulAsset;
+    youtubeUrl: string;
+    publishDate: string;
+  };
+}
+
+export interface ContentfulNews {
+  sys: {
+    id: string;
+  };
+  fields: {
+    title: string;
+    slug: string;
+    excerpt: string;
+    thumbnail?: ContentfulAsset;
+    bodyContent: any; // Rich text document
+    category: ContentfulCategory[];
+    publishDate: string;
+    author?: string;
+  };
+}
+
 export interface ContentfulArticle {
   sys: {
     id: string;

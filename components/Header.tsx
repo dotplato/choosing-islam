@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Menu,
   X,
@@ -14,6 +14,7 @@ import {
   Youtube,
   ChevronDown,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,6 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 import { ContentfulArticle, ContentfulCategory } from "@/types/contentful";
 
@@ -34,6 +36,9 @@ export default function Header({
   quranArticles = [],
   navbarCategories = [],
 }: HeaderProps) {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
+  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileQuranOpen, setMobileQuranOpen] = useState(false);
   const [openMobileCategories, setOpenMobileCategories] = useState<string[]>(
@@ -41,6 +46,14 @@ export default function Header({
   );
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMobileCategory = (id: string) => {
     setOpenMobileCategories((prev) =>
@@ -59,35 +72,70 @@ export default function Header({
     }
   };
 
+  const headerClasses = cn(
+    "w-full fixed top-0 z-50 transition-all duration-300",
+    isHomePage
+      ? isScrolled
+        ? "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-2"
+        : "bg-transparent border-transparent py-4"
+      : "bg-white border-b border-gray-200 py-4",
+  );
+
+  const textClasses = cn(
+    "transition-colors duration-300 font-medium",
+    isHomePage && !isScrolled ? "text-white hover:text-teal-200" : "text-gray-800 hover:text-teal-600",
+  );
+
+  const iconClasses = cn(
+    "transition-colors duration-300",
+    isHomePage && !isScrolled ? "text-white" : "text-gray-800",
+  );
+
   return (
-    <header className="w-full bg-white border-b-2 border-gray-300 sticky top-0 z-50">
+    <header className={headerClasses}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative ">
+            <div className="relative transition-all duration-300">
               <Image
-                src="/belize-logo.png" // Replace with your actual logo path
+                src="/belize-logo.png"
                 alt="Islamic Dawah Center of Belize Logo"
-                width={200} // set your desired width
-                height={200} // set your desired height
-                className="object-contain"
+                width={isHomePage && !isScrolled ? 200 : 180}
+                height={isHomePage && !isScrolled ? 200 : 180}
+                className={cn(
+                  "object-contain transition-all duration-300",
+                )}
               />
             </div>
           </Link>
 
           {/* Desktop Navigation - Center */}
           <nav className="hidden md:flex items-center space-x-8">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/about">About</NavLink>
-            <NavLink href="/donate">Donate</NavLink>
-            <NavLink href="/articles">Articles and News</NavLink>
+            <NavLink href="/" className={textClasses}>
+              Home
+            </NavLink>
+            <NavLink href="/about" className={textClasses}>
+              About
+            </NavLink>
+            <NavLink href="/donate" className={textClasses}>
+              Donate
+            </NavLink>
+            <NavLink href="/articles" className={textClasses}>
+News and Resources
+            </NavLink>
             <div className="relative">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-1 text-base font-medium text-gray-800 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase h-auto p-0 hover:bg-transparent"
+                    className={cn(
+                      "flex items-center gap-1 text-base font-medium transition-colors outline-none cursor-pointer uppercase h-auto p-0 hover:bg-transparent",
+                      textClasses,
+                      isHomePage && !isScrolled
+                        ? "hover:text-teal-200"
+                        : "hover:text-teal-600",
+                    )}
                   >
                     Quran <ChevronDown className="w-4 h-4" />
                   </Button>
@@ -121,7 +169,9 @@ export default function Header({
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <NavLink href="/contact">Contact</NavLink>
+            <NavLink href="/contact" className={textClasses}>
+              Contact
+            </NavLink>
           </nav>
 
           {/* Right Side - Search & Social Icons */}
@@ -148,9 +198,14 @@ export default function Header({
                     setSearchOpen(false);
                     setSearchQuery("");
                   }}
-                  className="p-2 hover:bg-gray-100 rounded-md transition-colors"
+                  className={cn(
+                    "p-2 rounded-md transition-colors",
+                    isHomePage && !isScrolled
+                      ? "hover:bg-white/10"
+                      : "hover:bg-gray-100",
+                  )}
                 >
-                  <X className="w-5 h-5 text-gray-800" />
+                  <X className={cn("w-5 h-5", iconClasses)} />
                 </Button>
               </form>
             ) : (
@@ -158,25 +213,30 @@ export default function Header({
                 variant="ghost"
                 size="icon"
                 onClick={() => setSearchOpen(true)}
-                className="p-2 hover:bg-gray-100 rounded-md transition-colors"
+                className={cn(
+                  "p-2 rounded-md transition-colors",
+                  isHomePage && !isScrolled
+                    ? "hover:bg-white/10"
+                    : "hover:bg-gray-100",
+                )}
               >
-                <Search className="w-5 h-5 text-gray-800" />
+                <Search className={cn("w-5 h-5", iconClasses)} />
               </Button>
             )}
 
             {/* Social Icons */}
             <div className="flex items-center space-x-3">
               <a href="#" className="hover:opacity-70 transition-opacity">
-                <Facebook className="w-5 h-5 text-gray-800" />
+                <Facebook className={cn("w-5 h-5", iconClasses)} />
               </a>
               <a href="#" className="hover:opacity-70 transition-opacity">
-                <Twitter className="w-5 h-5 text-gray-800" />
+                <Twitter className={cn("w-5 h-5", iconClasses)} />
               </a>
               <a href="#" className="hover:opacity-70 transition-opacity">
-                <Instagram className="w-5 h-5 text-gray-800" />
+                <Instagram className={cn("w-5 h-5", iconClasses)} />
               </a>
               <a href="#" className="hover:opacity-70 transition-opacity">
-                <Youtube className="w-5 h-5 text-gray-800" />
+                <Youtube className={cn("w-5 h-5", iconClasses)} />
               </a>
             </div>
           </div>
@@ -185,7 +245,7 @@ export default function Header({
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden p-2 text-gray-800"
+            className={cn("md:hidden p-2", iconClasses)}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
@@ -197,14 +257,26 @@ export default function Header({
         </div>
 
         {/* Secondary Desktop Navbar - Categories */}
-        <div className="hidden md:flex items-center justify-center py-2 border-t border-gray-100 space-x-8">
+        <div
+          className={cn(
+            "hidden md:flex items-center justify-center py-2 border-t space-x-8 transition-colors duration-300",
+            isHomePage && !isScrolled
+              ? "border-white/10"
+              : "border-gray-100",
+          )}
+        >
           {navbarCategories.map((cat) => (
             <div key={cat.sys.id} className="relative">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-1 text-sm font-semibold text-gray-600 hover:text-teal-600 transition-colors outline-none cursor-pointer uppercase tracking-wider h-auto p-0 hover:bg-transparent"
+                    className={cn(
+                      "flex items-center gap-1 text-sm font-semibold transition-colors outline-none cursor-pointer uppercase tracking-wider h-auto p-0 hover:bg-transparent",
+                      isHomePage && !isScrolled
+                        ? "text-teal-100 hover:text-white"
+                        : "text-gray-600 hover:text-teal-600",
+                    )}
                   >
                     {cat.fields.title} <ChevronDown className="w-3 h-3" />
                   </Button>
@@ -262,7 +334,7 @@ export default function Header({
                 href="/articles"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Articles
+               News and Resources
               </MobileNavLink>
 
               {navbarCategories.map((cat) => (
@@ -367,15 +439,20 @@ export default function Header({
 
 function NavLink({
   href,
+  className,
   children,
 }: {
   href: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   return (
     <Link
       href={href}
-      className="text-base font-medium text-gray-800 hover:text-teal-600 transition-colors"
+      className={cn(
+        "text-base font-medium transition-colors",
+        className ? className : "text-gray-800 hover:text-teal-600",
+      )}
     >
       {children}
     </Link>

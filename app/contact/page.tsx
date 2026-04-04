@@ -122,7 +122,7 @@ export default function Contact() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative text-white py-0 overflow-hidden">
+      <section className="relative text-white pt-24 pb-0 overflow-hidden">
         <div className="w-full h-[400px] relative">
           <Image
             src="/contactus.jpeg"

@@ -27,13 +27,19 @@ import {
   getTopicCategories,
   getRecentArticles,
   getHistoryArticles,
+  getGalleryBySlug,
 } from "@/lib/contentful";
 
 export default async function Home() {
-  // Fetch categories and articles from Contentful
+  // Fetch categories, articles, and gallery from Contentful
   const topicCategories = await getTopicCategories();
   const recentArticles = await getRecentArticles(7);
   const historyArticles = await getHistoryArticles(); // Fetch articles marked for History section
+  const homepageGallery = await getGalleryBySlug("homepage-impact-gallery");
+
+  const galleryImages = homepageGallery?.fields.images?.map(
+    (img) => `https:${img.fields.file.url}`
+  ) || [];
 
   // Map Contentful categories to topics format (fallback to placeholder if empty)
   const topics =
@@ -142,7 +148,7 @@ export default async function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left side: Interactive Image Gallery */}
             <div className="order-2 lg:order-1">
-              <ImpactGallery />
+              <ImpactGallery images={galleryImages} />
             </div>
 
             {/* Right side: Impact Stats */}

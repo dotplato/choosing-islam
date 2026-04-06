@@ -3,20 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
+  MapPin,
+  Heart,
+  ShieldCheck,
   FileText,
   MessageCircle,
-  Users,
-  MapPin,
-  Eye,
 } from "lucide-react";
 
 const STATS = [
-  { icon: BookOpen, value: 10000, label: "Qurans Distributed" },
-  { icon: FileText, value: 960000, label: "Brochures Printed" },
+  { icon: BookOpen, value: 1000, label: "Quran Distribution" },
+  { icon: MapPin, value: 100, label: "Mosque Tours" },
+  { icon: ShieldCheck, value: 500, label: "Rehabilitated Prisoners" },
+  { icon: Heart, value: 100, label: "Community Support" },
+  { icon: FileText, value: 960000, label: "Books Distributed" },
   { icon: MessageCircle, value: 3454, label: "Live Chat Sessions" },
-  { icon: Users, value: 1585378, label: "Website Visitors" },
-  { icon: MapPin, value: 139, label: "Mosque Tours" },
-  { icon: Eye, value: 6300000, label: "YouTube Views" },
+ 
+
 ];
 
 // Format numbers with commas
@@ -83,7 +85,7 @@ function CountUp({ end, duration = 2000 }: { end: number; duration?: number }) {
       ref={ref}
       className="text-4xl md:text-5xl font-bold text-teal-600 tabular-nums"
     >
-      {formatNumber(count)}
+      {formatNumber(count)}+
     </div>
   );
 }
@@ -102,7 +104,7 @@ export function ImpactStats() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {STATS.map((stat, index) => {
             const Icon = stat.icon;
             return (

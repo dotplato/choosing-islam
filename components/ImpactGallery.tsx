@@ -5,24 +5,29 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { X, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 
-const GALLERY_IMAGES = [
-  "/impact/i1.jpeg",
-  "/impact/i2.jpeg",
-  "/impact/i3.jpeg",
-  "/impact/i4.jpeg",
-  "/impact/i5.jpeg",
-  "/impact/i6.jpeg",
-  "/impact/i7.jpeg",
-  "/impact/i8.jpeg",
-  "/impact/i9.jpeg",
-];
+interface ImpactGalleryProps {
+  images?: string[];
+}
 
-// How many images to show in the grid (the rest are only in the lightbox)
-const GRID_VISIBLE = 9;
+export default function ImpactGallery({ images = [] }: ImpactGalleryProps) {
+  // Use provided images or fallback to local defaults if none provided
+  const displayImages = images.length > 0 ? images : [
+    "/impact/i1.jpeg",
+    "/impact/i2.jpeg",
+    "/impact/i3.jpeg",
+    "/impact/i4.jpeg",
+    "/impact/i5.jpeg",
+    "/impact/i6.jpeg",
+    "/impact/i7.jpeg",
+    "/impact/i8.jpeg",
+    "/impact/i9.jpeg",
+  ];
 
-export default function ImpactGallery() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // How many images to show in the grid (the rest are only in the lightbox)
+  const GRID_VISIBLE = Math.min(9, displayImages.length);
 
   const openLightbox = (index: number) => {
     setActiveIndex(index);
@@ -32,12 +37,12 @@ export default function ImpactGallery() {
   const closeLightbox = () => setLightboxOpen(false);
 
   const prev = useCallback(() => {
-    setActiveIndex((i) => (i - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length);
-  }, []);
+    setActiveIndex((i) => (i - 1 + displayImages.length) % displayImages.length);
+  }, [displayImages.length]);
 
   const next = useCallback(() => {
-    setActiveIndex((i) => (i + 1) % GALLERY_IMAGES.length);
-  }, []);
+    setActiveIndex((i) => (i + 1) % displayImages.length);
+  }, [displayImages.length]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -63,7 +68,7 @@ export default function ImpactGallery() {
     <>
       {/* ─── 3×3 Grid ─────────────────────────────────────── */}
       <div className="grid grid-cols-3 gap-3 md:gap-4">
-        {GALLERY_IMAGES.slice(0, GRID_VISIBLE).map((src, i) => (
+        {displayImages.slice(0, GRID_VISIBLE).map((src, i) => (
           <Button
             key={i}
             variant="ghost"
@@ -88,7 +93,9 @@ export default function ImpactGallery() {
                   <Plus className="w-6 h-6 text-white" strokeWidth={2.5} />
                 </div>
                 <span className="text-white text-sm font-semibold tracking-wide drop-shadow">
-                  View Gallery
+                  {displayImages.length > GRID_VISIBLE
+                    ? `View ${displayImages.length - GRID_VISIBLE + 1}+ More`
+                    : "View Gallery"}
                 </span>
               </div>
             )}
@@ -98,94 +105,55 @@ export default function ImpactGallery() {
 
       {/* ─── Lightbox ─────────────────────────────────────── */}
       {lightboxOpen && (
-        <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center"
-          style={{ background: "rgba(0,0,0,0.92)" }}
-          onClick={closeLightbox}
-        >
-          {/* Close button */}
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-300">
           <Button
             variant="ghost"
             size="icon"
             onClick={closeLightbox}
-            className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
-            aria-label="Close gallery"
+            className="absolute top-6 right-6 text-white/70 hover:text-white hover:bg-white/10 z-[1000] rounded-full"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-8 h-8" />
           </Button>
 
-          {/* Counter */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-medium backdrop-blur-sm">
-            {activeIndex + 1} / {GALLERY_IMAGES.length}
-          </div>
-
-          {/* Prev arrow */}
+          {/* Nav Buttons */}
           <Button
             variant="ghost"
             size="icon"
-            onClick={(e) => { e.stopPropagation(); prev(); }}
-            className="absolute left-3 sm:left-6 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
-            aria-label="Previous image"
+            onClick={prev}
+            className="absolute left-4 md:left-8 text-white/50 hover:text-white hover:bg-white/5 z-[1000] rounded-full p-2 h-auto w-auto"
           >
-            <ChevronLeft className="w-6 h-6 text-white" />
+            <ChevronLeft className="w-10 h-10 md:w-12 md:h-12" />
           </Button>
 
-          {/* Main image */}
-          <div
-            className="relative max-w-5xl w-full mx-16 px-4 aspect-video"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              key={activeIndex}
-              src={GALLERY_IMAGES[activeIndex]}
-              alt={`Gallery image ${activeIndex + 1}`}
-              fill
-              className="w-full h-full object-contain rounded-2xl shadow-2xl animate-fadeIn"
-              priority
-            />
-          </div>
-
-          {/* Next arrow */}
           <Button
             variant="ghost"
             size="icon"
-            onClick={(e) => { e.stopPropagation(); next(); }}
-            className="absolute right-3 sm:right-6 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 flex items-center justify-center transition-colors"
-            aria-label="Next image"
+            onClick={next}
+            className="absolute right-4 md:right-8 text-white/50 hover:text-white hover:bg-white/5 z-[1000] rounded-full p-2 h-auto w-auto"
           >
-            <ChevronRight className="w-6 h-6 text-white" />
+            <ChevronRight className="w-10 h-10 md:w-12 md:h-12" />
           </Button>
 
-          {/* Thumbnail strip */}
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 px-4 overflow-x-auto">
-            {GALLERY_IMAGES.map((src, i) => (
-              <Button
-                key={i}
-                variant="ghost"
-                onClick={(e) => { e.stopPropagation(); setActiveIndex(i); }}
-                className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all duration-200 p-0 h-auto ${
-                  i === activeIndex
-                    ? "border-teal-400 scale-110 shadow-lg"
-                    : "border-white/20 opacity-60 hover:opacity-100"
-                }`}
-                aria-label={`Go to image ${i + 1}`}
-              >
-                <Image src={src} alt="" fill className="w-full h-full object-cover" />
-              </Button>
-            ))}
+          {/* Main Image Container */}
+          <div className="relative w-full h-full max-w-6xl max-h-[85vh] mx-4 flex items-center justify-center select-none">
+            <div className="relative w-full h-full">
+              <Image
+                src={displayImages[activeIndex]}
+                alt={`Gallery detail ${activeIndex + 1}`}
+                fill
+                className="object-contain pointer-events-none"
+                quality={100}
+                priority
+              />
+            </div>
+
+            {/* Counter */}
+            <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 text-white/60 font-medium">
+              {activeIndex + 1} / {displayImages.length}
+            </div>
           </div>
         </div>
       )}
-
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: scale(0.97); }
-          to   { opacity: 1; transform: scale(1); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.2s ease-out;
-        }
-      `}</style>
     </>
   );
 }

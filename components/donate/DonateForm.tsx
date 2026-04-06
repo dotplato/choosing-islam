@@ -199,7 +199,7 @@ export default function DonateForm({ variant = "light" }: DonateFormProps) {
                       <span className="text-teal-600 font-medium">
                         Account Type
                       </span>
-                      <span className="font-bold">Savings</span>
+                      <span className="font-bold">Checking Account</span>
                     </div>
                   </div>
                 </div>

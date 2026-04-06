@@ -51,9 +51,23 @@ const GALLERY_IMAGES = [
   
 ];
 
-export function DonateGallery() {
+interface DonateGalleryProps {
+  images?: string[];
+}
+
+export function DonateGallery({ images = [] }: DonateGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // Use provided images or fallback to local defaults if none provided
+  const displayImages = images.length > 0 ? images.map((src, i) => ({
+    src,
+    alt: `Impact image ${i + 1}`,
+    title: "",
+    gridClass: (i === 8 && images.length === 9) 
+      ? "col-span-2 row-span-1" 
+      : i % 7 === 3 ? "col-span-1 row-span-2" : i % 7 === 6 ? "col-span-2 row-span-1" : "col-span-1 row-span-1"
+  })) : GALLERY_IMAGES;
 
   const openLightbox = (index: number) => {
     setSelectedIndex(index);
@@ -62,14 +76,14 @@ export function DonateGallery() {
   const closeLightbox = () => setLightboxOpen(false);
 
   const showNext = useCallback(() => {
-    setSelectedIndex((prev) => (prev + 1) % GALLERY_IMAGES.length);
-  }, []);
+    setSelectedIndex((prev) => (prev + 1) % displayImages.length);
+  }, [displayImages.length]);
 
   const showPrev = useCallback(() => {
     setSelectedIndex(
-      (prev) => (prev - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length
+      (prev) => (prev - 1 + displayImages.length) % displayImages.length
     );
-  }, []);
+  }, [displayImages.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -96,7 +110,7 @@ export function DonateGallery() {
                     </div>
       {/* Masonry Grid Gallery */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-0 auto-rows-[200px] mt-8">
-        {GALLERY_IMAGES.map((img, index) => (
+        {displayImages.map((img, index) => (
           <div
             key={index}
             className={`relative overflow-hidden cursor-pointer group ${img.gridClass}`}
@@ -164,8 +178,8 @@ export function DonateGallery() {
           >
             <div className="relative w-full h-full">
               <Image
-                src={GALLERY_IMAGES[selectedIndex].src}
-                alt={GALLERY_IMAGES[selectedIndex].alt}
+                src={displayImages[selectedIndex].src}
+                alt={displayImages[selectedIndex].alt}
                 fill
                 className="object-contain"
                 priority
@@ -173,10 +187,10 @@ export function DonateGallery() {
             </div>
             <div className="absolute bottom-0 md:bottom-4 left-0 right-0 text-center text-white bg-black/50 md:bg-transparent py-3 md:py-0 space-y-1">
               <h3 className="text-lg md:text-2xl font-bold">
-                {GALLERY_IMAGES[selectedIndex].title}
+                {displayImages[selectedIndex].title}
               </h3>
               <p className="text-xs md:text-sm opacity-70">
-                Image {selectedIndex + 1} of {GALLERY_IMAGES.length}
+                Image {selectedIndex + 1} of {displayImages.length}
               </p>
             </div>
           </div>

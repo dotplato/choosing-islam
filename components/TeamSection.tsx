@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const TEAM_MEMBERS = [
   {
-    name: "Majid khan (project manager)",
+    name: "Majid khan",
     email: "MajidKhanBelizean@gmail.com",
     phone: "+501 611 8003 ",
     image: "/team/img1.jpeg",

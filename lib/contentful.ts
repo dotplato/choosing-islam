@@ -4,6 +4,7 @@ import type {
   ContentfulCategory,
   ContentfulVideo,
   ContentfulNews,
+  ContentfulGallery,
 } from "@/types/contentful";
 
 if (!process.env.CONTENTFUL_SPACE_ID || !process.env.CONTENTFUL_ACCESS_TOKEN) {
@@ -186,4 +187,19 @@ export async function getNavbarCategories(): Promise<
   );
 
   return categoriesWithArticles;
+}
+
+export async function getGalleryBySlug(slug: string): Promise<ContentfulGallery | null> {
+  const response = await client.getEntries({
+    content_type: "gallery",
+    "fields.slug": slug,
+    include: 2,
+    limit: 1,
+  });
+
+  if (response.items.length === 0) {
+    return null;
+  }
+
+  return response.items[0] as unknown as ContentfulGallery;
 }

@@ -1,10 +1,14 @@
-"use client";
-
 import { DonateGallery } from "@/components/donate/DonateGallery";
 import { ImpactStats } from "@/components/donate/ImpactStats";
 import DonateForm from "@/components/donate/DonateForm";
+import { getGalleryBySlug } from "@/lib/contentful";
 
-export default function DonatePage() {
+export default async function DonatePage() {
+  const donateGalleryData = await getGalleryBySlug("homepage-impact-gallery");
+  const galleryImages = donateGalleryData?.fields.images?.map(
+    (img) => `https:${img.fields.file.url}`
+  ) || [];
+
   return (
     <div className="min-h-screen bg-gray-50 pt-48 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-8">
@@ -25,7 +29,7 @@ export default function DonatePage() {
 
       {/* Gallery Section */}
       <div className="max-w-7xl mx-auto mt-12">
-        <DonateGallery />
+        <DonateGallery images={galleryImages} />
       </div>
 
       {/* Impact Stats Section */}

@@ -85,20 +85,13 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/articles"
                   className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Resources
                 </a>
               </li>
-              <li>
-                <a
-                  href="#"
-                  className="hover:text-teal-200 transition-colors text-sm"
-                >
-                  FAQ
-                </a>
-              </li>
+              
             </ul>
           </div>
 
@@ -109,7 +102,7 @@ export default function Footer() {
               
               <li>
                 <a
-                  href="#"
+                  href="/donate"
                   className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Donate
@@ -117,7 +110,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/contact"
                   className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Contact Us
@@ -125,7 +118,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/privacy-policy"
                   className="hover:text-teal-200 transition-colors text-sm"
                 >
                   Privacy Policy

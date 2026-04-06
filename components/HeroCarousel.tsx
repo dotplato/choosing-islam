@@ -11,8 +11,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Play } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const slides = [
+interface HeroSlide {
+  tagline: string;
+  title: string;
+  description: string;
+  image: string;
+  floatingImage: string;
+  floatingImagePosition?: "top-right" | "bottom-right";
+  stats: {
+    number: string;
+    label: string;
+    avatars: string[];
+  };
+}
+
+const slides: HeroSlide[] = [
   {
     tagline: "",
     title: "Islamic Mission Belize – A Legacy of Dawah",
@@ -34,14 +49,45 @@ const slides = [
     tagline: "",
     title: "Islamic Mission Belize – A Legacy of Faith and Education",
     description: " From its beginnings in 1972, standing as a center of faith dedicated to spreading authentic Islam across Belize.",
-    image: "/belize3.jpg",
-    floatingImage: "/impact/i1.jpeg",
+    image: "/impact/i7.jpeg",
+    floatingImage: "/impact/i6.jpeg",
+    floatingImagePosition: "bottom-right",
     stats: {
       number: "50+",
       label: "Islamic Resources",
       avatars: [
         "https://images.pexels.com/photos/1001897/pexels-photo-1001897.jpeg?auto=compress&cs=tinysrgb&w=100",
         "https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=100",
+      ]
+    }
+  },
+  {
+    tagline: "",
+    title: "Hope and Reform Behind Bars",
+    description: "Through our dedicated prison outreach program, we have helped over 500 individuals find peace and a path toward a better future.",
+    image: "/donateGallery/imp1.jpeg", // Replace with your image
+    floatingImage: "/impact/i4.jpeg", // Replace with your image
+    stats: {
+      number: "500+",
+      label: "Rehabilitated",
+      avatars: [
+        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100",
+        "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=100",
+      ]
+    }
+  },
+  {
+    tagline: "",
+    title: "Illuminating Minds through Education",
+    description: "Spreading authentic knowledge across Belize with over 960,000 books distributed and countless resources for spiritual growth.",
+    image: "/values/edu.jpeg", // Replace with your image
+    floatingImage: "/hero/edu2.jpeg", // Replace with your image
+    stats: {
+      number: "960k+",
+      label: "Books Distributed",
+      avatars: [
+        "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100",
+        "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100",
       ]
     }
   }
@@ -109,7 +155,12 @@ export default function HeroCarousel() {
                       </div>
                       
                       {/* Floating Circle Image */}
-                      <div className="absolute -top-1 -right-1 sm:-top-4 sm:-right-4 w-16 h-16 sm:w-28 sm:h-28 lg:w-44 lg:h-44 rounded-full overflow-hidden border-[3px] sm:border-[6px] lg:border-[8px] border-[#033f39] shadow-2xl z-30">
+                      <div className={cn(
+                        "absolute w-16 h-16 sm:w-28 sm:h-28 lg:w-44 lg:h-44 rounded-full overflow-hidden border-[3px] sm:border-[6px] lg:border-[8px] border-[#033f39] shadow-2xl z-30",
+                        slide.floatingImagePosition === "bottom-right" 
+                          ? "-bottom-1 -right-1 sm:-bottom-4 sm:-right-4" 
+                          : "-top-1 -right-1 sm:-top-4 sm:-right-4"
+                      )}>
                         <Image
                           src={slide.floatingImage}
                           alt="Secondary"

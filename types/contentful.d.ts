@@ -85,6 +85,17 @@ export interface ContentfulNews {
   };
 }
 
+export interface ContentfulGallery {
+  sys: {
+    id: string;
+  };
+  fields: {
+    title: string;
+    slug: string;
+    images: ContentfulAsset[];
+  };
+}
+
 export interface ContentfulArticle {
   sys: {
     id: string;

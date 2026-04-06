@@ -229,6 +229,36 @@ export default async function Home() {
             </p>
           </div>
 
+          {/* History Video Section */}
+          <div className="mb-16 max-w-4xl mx-auto">
+            <a
+              href="https://www.youtube.com/watch?v=3yxLcyFg2HA" // Replace with your actual YouTube link
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block relative aspect-video rounded-2xl overflow-hidden shadow-2xl hover:shadow-teal-900/20 transition-all duration-500"
+            >
+              <Image
+                src="/yt-thumnail.jpeg" // Replace with your video thumbnail
+                alt="History of Belize Video"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center text-teal-600 transform group-hover:scale-110 transition-transform shadow-xl">
+                  <svg
+                    className="w-10 h-10 fill-current ml-1"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
+               
+              </div>
+            </a>
+          </div>
+
           {historyArticles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {historyArticles.map((article) => {

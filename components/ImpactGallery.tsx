@@ -105,12 +105,18 @@ export default function ImpactGallery({ images = [] }: ImpactGalleryProps) {
 
       {/* ─── Lightbox ─────────────────────────────────────── */}
       {lightboxOpen && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-300">
+        <div
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-300"
+          onClick={closeLightbox}
+        >
           <Button
             variant="ghost"
             size="icon"
-            onClick={closeLightbox}
-            className="absolute top-6 right-6 text-white/70 hover:text-white hover:bg-white/10 z-[1000] rounded-full"
+            onClick={(e) => {
+              e.stopPropagation();
+              closeLightbox();
+            }}
+            className="absolute top-6 right-6 text-white/70 hover:text-white hover:bg-white/10 z-[1000] rounded-full h-auto w-auto p-2"
           >
             <X className="w-8 h-8" />
           </Button>
@@ -119,7 +125,10 @@ export default function ImpactGallery({ images = [] }: ImpactGalleryProps) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={prev}
+            onClick={(e) => {
+              e.stopPropagation();
+              prev();
+            }}
             className="absolute left-4 md:left-8 text-white/50 hover:text-white hover:bg-white/5 z-[1000] rounded-full p-2 h-auto w-auto"
           >
             <ChevronLeft className="w-10 h-10 md:w-12 md:h-12" />
@@ -128,14 +137,20 @@ export default function ImpactGallery({ images = [] }: ImpactGalleryProps) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={next}
+            onClick={(e) => {
+              e.stopPropagation();
+              next();
+            }}
             className="absolute right-4 md:right-8 text-white/50 hover:text-white hover:bg-white/5 z-[1000] rounded-full p-2 h-auto w-auto"
           >
             <ChevronRight className="w-10 h-10 md:w-12 md:h-12" />
           </Button>
 
           {/* Main Image Container */}
-          <div className="relative w-full h-full max-w-6xl max-h-[85vh] mx-4 flex items-center justify-center select-none">
+          <div
+            className="relative w-full h-full max-w-6xl max-h-[85vh] mx-4 flex items-center justify-center select-none"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="relative w-full h-full">
               <Image
                 src={displayImages[activeIndex]}

@@ -5,14 +5,14 @@ import { Button } from "@/components/ui/button";
 export default function FreeResourcesBanner() {
   return (
     <section className="py-6 bg-white">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl px-10 py-10 md:px-16 md:py-10 bg-teal-100 transition-colors duration-500 group">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative rounded-3xl p-6 md:p-8 bg-teal-100 transition-colors duration-500 group">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
             {/* Left Side: Overlapping Books */}
-            <div className="relative h-[120px] md:h-[200px] w-full max-w-[320px] flex items-center justify-center lg:justify-start flex-shrink-0">
+            <div className="relative h-[120px] md:h-[200px] w-full max-w-[280px] md:max-w-[320px] flex items-center justify-center lg:justify-start flex-shrink-0">
               <div className="relative w-full">
                 {/* Book 1 (Back Left) */}
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 -rotate-[10deg] w-24 h-32 md:w-36 md:h-48 bg-gray-100 rounded-lg shadow-xl border border-gray-200 overflow-hidden transform lg:group-hover:-translate-x-6 lg:group-hover:-rotate-[20deg] -translate-x-2 -rotate-[10deg] lg:-translate-x-0 lg:-rotate-[15deg] transition-transform duration-500 z-10">
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 -rotate-[10deg] w-24 h-32 md:w-36 md:h-48 bg-gray-100 rounded-lg shadow-xl border border-gray-200 overflow-hidden transform lg:group-hover:-translate-x-16 lg:group-hover:-rotate-[30deg] -translate-x-2 -rotate-[10deg] lg:-translate-x-0 lg:-rotate-[15deg] transition-transform duration-500 z-10">
                   <Image
                     src="/getAccessSection/a1.jpeg"
                     alt="Free Book 1"
@@ -21,7 +21,7 @@ export default function FreeResourcesBanner() {
                   />
                 </div>
                 {/* Book 2 (Middle) */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-32 md:w-36 md:h-48 bg-white rounded-lg shadow-2xl border border-gray-100 overflow-hidden transform lg:group-hover:-translate-y-[60%] -translate-y-[50%] lg:-translate-y-1/2 transition-transform duration-500 z-20">
+                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-32 md:w-36 md:h-48 bg-white rounded-lg shadow-2xl border border-gray-100 overflow-hidden transform lg:group-hover:-translate-y-[85%] -translate-y-[50%] lg:-translate-y-1/2 transition-transform duration-500 z-20">
                   <Image
                     src="/getAccessSection/a2.jpeg"
                     alt="Free Book 2"
@@ -30,7 +30,7 @@ export default function FreeResourcesBanner() {
                   />
                 </div>
                 {/* Book 3 (Front Right) */}
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 rotate-[10deg] w-24 h-32 md:w-36 md:h-48 bg-gray-50 rounded-lg shadow-xl border border-gray-200 overflow-hidden transform lg:group-hover:translate-x-6 lg:group-hover:rotate-[20deg] translate-x-2 rotate-[10deg] lg:translate-x-0 lg:rotate-[15deg] transition-transform duration-500 z-30">
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 rotate-[10deg] w-24 h-32 md:w-36 md:h-48 bg-gray-50 rounded-lg shadow-xl border border-gray-200 overflow-hidden transform lg:group-hover:translate-x-16 lg:group-hover:rotate-[30deg] translate-x-2 rotate-[10deg] lg:translate-x-0 lg:rotate-[15deg] transition-transform duration-500 z-30">
                   <Image
                     src="/getAccessSection/a3.jpeg"
                     alt="Free Book 3"
@@ -42,7 +42,7 @@ export default function FreeResourcesBanner() {
             </div>
 
             {/* Right Side: Content */}
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 w-full">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 w-full relative z-40">
               <div className="text-center lg:text-left space-y-4 flex-grow">
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
                   Get Access to <br />

@@ -1,12 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lexend } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Birdcomponent from "@/components/Birdcomponent";
 import { getQuranArticles, getNavbarCategories } from "@/lib/contentful";
 
-const inter = Inter({ subsets: ["latin"] });
+const lexend = Lexend({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title:
@@ -46,7 +46,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={lexend.className}>
         <div className="min-h-screen flex flex-col relative">
           <Birdcomponent />
 

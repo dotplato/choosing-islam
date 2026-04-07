@@ -1,10 +1,11 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { Calendar, Clock, User, ArrowRight, Play, ExternalLink, Video, Newspaper, BookOpen } from "lucide-react";
+import { Calendar, Clock, User, ArrowRight, Play, ExternalLink, Video, Newspaper, BookOpen, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -59,12 +60,23 @@ export default function ArticlesClient({
   const router = useRouter();
   
   const categoryFilter = searchParams.get("category") || "All";
-  const activeTab = searchParams.get("tab") || "articles";
+  const activeTab = searchParams.get("tab") || "all";
+  const searchQuery = searchParams.get("search") || "";
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
     params.delete("category"); // Reset category when switching tabs
+    router.push(`/articles?${params.toString()}`, { scroll: false });
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (e.target.value) {
+      params.set("search", e.target.value);
+    } else {
+      params.delete("search");
+    }
     router.push(`/articles?${params.toString()}`, { scroll: false });
   };
 
@@ -77,16 +89,25 @@ export default function ArticlesClient({
       news: "news"
     };
     
-    if (item.type !== tabToTypeMap[activeTab]) return false;
+    if (activeTab !== "all" && item.type !== tabToTypeMap[activeTab]) return false;
 
     // 2. Filter by Category (Only for Articles and News)
     if (activeTab === "articles" || activeTab === "news") {
-      if (categoryFilter === "All") return true;
-      const typedItem = item as Article | News;
-      return typedItem.categories.includes(categoryFilter);
+      if (categoryFilter !== "All") {
+        const typedItem = item as Article | News;
+        if (!typedItem.categories.includes(categoryFilter)) return false;
+      }
+    }
+
+    // 3. Filter by Search Query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      const titleMatch = item.title.toLowerCase().includes(query);
+      const excerptMatch = item.excerpt.toLowerCase().includes(query);
+      return titleMatch || excerptMatch;
     }
     
-    return true; // Videos don't have category filter currently
+    return true; 
   });
 
   const renderCard = (item: ContentItem) => {
@@ -213,15 +234,22 @@ export default function ArticlesClient({
   return (
     <>
       {/* Tabs and Filters Section */}
-      <section className="bg-white border-b py-4">
+      <section className="bg-white border-b py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-8">
             <Tabs
               value={activeTab}
-              className="w-full max-w-lg"
+              className="w-full max-w-xl"
               onValueChange={handleTabChange}
             >
-              <TabsList className="grid w-full grid-cols-3 p-1 bg-gray-100 rounded-xl">
+              <TabsList className="grid w-full grid-cols-4 p-1 bg-gray-100 rounded-xl">
+                <TabsTrigger
+                  value="all"
+                  className="rounded-lg py-2.5 data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md flex items-center gap-2 transition-all"
+                >
+                  <Search className="w-4 h-4" />
+                  <span className="font-semibold">All</span>
+                </TabsTrigger>
                 <TabsTrigger
                   value="articles"
                   className="rounded-lg py-2.5 data-[state=active]:bg-white data-[state=active]:text-teal-600 data-[state=active]:shadow-md flex items-center gap-2 transition-all"
@@ -285,31 +313,19 @@ export default function ArticlesClient({
               {filteredItems.map((item) => renderCard(item))}
             </div>
           ) : (
-            <div className="text-center py-32 bg-white rounded-3xl border-2 border-dashed border-gray-200">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-50 rounded-full mb-6">
-                {activeTab === "videos" ? (
-                  <Video className="w-10 h-10 text-gray-300" />
-                ) : activeTab === "news" ? (
-                  <Newspaper className="w-10 h-10 text-gray-300" />
-                ) : (
-                  <BookOpen className="w-10 h-10 text-gray-300" />
-                )}
-              </div>
-              <p className="text-2xl font-bold text-gray-900">
-                No {activeTab} found
+            <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100">
+              <Search className="w-16 h-16 text-gray-200 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-gray-900 mb-2">No results found</h3>
+              <p className="text-gray-500 max-w-md mx-auto">
+                We couldn't find any {activeTab} matching your current filters or search query.
               </p>
-              <p className="text-gray-500 mt-2 max-w-sm mx-auto">
-                {categoryFilter !== "All" 
-                  ? `We couldn't find any ${activeTab} in the "${categoryFilter}" category.`
-                  : `There are currently no ${activeTab} available.`}
-              </p>
-              {categoryFilter !== "All" && (
-                <Link href={`/articles?tab=${activeTab}`}>
-                  <Button variant="link" className="text-teal-600 mt-4 font-bold text-lg">
-                    Clear all filters
-                  </Button>
-                </Link>
-              )}
+              <Button 
+                variant="outline" 
+                className="mt-6 text-teal-600 border-teal-600 hover:bg-teal-50"
+                onClick={() => router.push("/articles")}
+              >
+                Clear all filters
+              </Button>
             </div>
           )}
         </div>

@@ -110,12 +110,24 @@ export default function HeroCarousel() {
 
   return (
     <section className="relative w-full min-h-[100dvh] lg:h-[100dvh] bg-[#033f39] overflow-hidden flex flex-col">
+      {/* Background Image (Lower Opacity) - Fixed behind everything */}
+      <div className="absolute inset-0 z-0 opacity-20">
+        <Image
+          src={slides[0].image}
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
       <Carousel
         setApi={setApi}
-        className="flex-grow"
+        className="flex-grow z-10"
         opts={{
           loop: true,
           align: "start",
+          skipSnaps: true,
         }}
       >
         <CarouselContent className="-ml-0 h-full">
@@ -127,21 +139,30 @@ export default function HeroCarousel() {
                 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-20 flex flex-col lg:grid lg:grid-cols-2 gap-2 lg:gap-8 items-center pt-20 lg:pt-32">
                   {/* 1. Heading (Mobile: 1st, Desktop: 1st) */}
-                  <div className="order-1 lg:col-start-1 lg:row-start-1 animate-in fade-in slide-in-from-left-8 duration-1000 text-center lg:text-left w-full">
+                  <div className={cn(
+                    "order-1 lg:col-start-1 lg:row-start-1 transition-all duration-1000 text-center lg:text-left w-full",
+                    current === index ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
+                  )}>
                     <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                       {slide.title}
                     </h1>
                   </div>
 
                   {/* 2. Paragraph (Mobile: 2nd, Desktop: 2nd) */}
-                  <div className="order-2 lg:col-start-1 lg:row-start-2 animate-in fade-in slide-in-from-left-8 duration-1000 text-center lg:text-left mt-1 lg:mt-0 w-full">
+                  <div className={cn(
+                    "order-2 lg:col-start-1 lg:row-start-2 transition-all duration-1000 text-center lg:text-left mt-1 lg:mt-0 w-full",
+                    current === index ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
+                  )}>
                     <p className="text-gray-300 lg:text-gray-400 text-xs sm:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed line-clamp-2 lg:line-clamp-none">
                       {slide.description}
                     </p>
                   </div>
 
                   {/* 3. Right Content - Circle Images & Metric Card (Mobile: 3rd, Desktop: Right column) */}
-                  <div className="relative flex justify-center lg:justify-end animate-in fade-in slide-in-from-right-8 duration-1000 mt-4 lg:mt-0 scale-[0.95] xs:scale-100 sm:scale-110 lg:scale-100 order-3 lg:col-start-2 lg:row-start-1 lg:row-span-3">
+                  <div className={cn(
+                    "relative flex justify-center lg:justify-end transition-all duration-1000 mt-4 lg:mt-0 scale-[0.95] xs:scale-100 sm:scale-110 lg:scale-100 order-3 lg:col-start-2 lg:row-start-1 lg:row-span-3",
+                    current === index ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
+                  )}>
                     <div className="relative w-[240px] h-[240px] sm:w-[320px] sm:h-[320px] lg:w-[420px] lg:h-[420px]">
                       {/* Main Circle Image */}
                       <div className="absolute inset-0 rounded-full overflow-hidden border-[4px] sm:border-[8px] lg:border-[12px] border-white/5 shadow-2xl">
@@ -195,7 +216,10 @@ export default function HeroCarousel() {
                   </div>
 
                   {/* 4. Left Content - CTA (Mobile: 4th, Desktop: Bottom of Left column) */}
-                  <div className="order-4 lg:col-start-1 lg:row-start-3 animate-in fade-in slide-in-from-left-8 duration-1000 text-center lg:text-left mt-1 lg:mt-0 w-full">
+                  <div className={cn(
+                    "order-4 lg:col-start-1 lg:row-start-3 transition-all duration-1000 text-center lg:text-left mt-1 lg:mt-0 w-full",
+                    current === index ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
+                  )}>
                     {/* Donation Request Style CTA */}
                     <div className="flex items-center justify-center lg:justify-start gap-2">
                       <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-xl bg-white/5 p-2 sm:p-4 rounded-xl border border-white/10 backdrop-blur-sm group hover:bg-white/10 transition-all gap-2">
@@ -217,16 +241,6 @@ export default function HeroCarousel() {
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* Background Image (Lower Opacity) */}
-                <div className="absolute inset-0 -z-10 opacity-20">
-                  <Image
-                    src={slides[0].image}
-                    alt="Background"
-                    fill
-                    className="object-cover"
-                  />
                 </div>
               </div>
             </CarouselItem>

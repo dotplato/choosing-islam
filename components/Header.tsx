@@ -14,7 +14,7 @@ import {
   Youtube,
   ChevronDown,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -37,6 +37,7 @@ export default function Header({
   navbarCategories = [],
 }: HeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const isHomePage = pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -48,6 +49,7 @@ export default function Header({
   const [searchQuery, setSearchQuery] = useState("");
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileButtonRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,14 +83,13 @@ export default function Header({
     );
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSearch = (e?: React.FormEvent) => {
+    e?.preventDefault();
     if (searchQuery.trim()) {
-      // You can implement your search logic here
-      console.log("Searching for:", searchQuery);
-      // For now, we'll just close the search
+      router.push(`/articles?tab=all&search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchOpen(false);
       setSearchQuery("");
+      setMobileMenuOpen(false);
     }
   };
 
@@ -142,8 +143,16 @@ export default function Header({
               Donate
             </NavLink>
             <NavLink href="/articles" className={textClasses}>
-News and Resources
+              News and Resources
             </NavLink>
+            <a
+              href="https://drive.google.com/drive/folders/16tXGPlukrQrVih8W-02lmvcnlAaHivnh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn("text-base font-medium transition-colors", textClasses)}
+            >
+              Books
+            </a>
             <div className="relative">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -196,56 +205,55 @@ News and Resources
 
           {/* Right Side - Search & Social Icons */}
           <div className="hidden md:flex items-center space-x-4">
-            {/* Search - Toggle between icon and input */}
-            {searchOpen ? (
-              <form
-                onSubmit={handleSearch}
-                className="flex items-center space-x-2"
-              >
-                <Input
-                  type="search"
-                  placeholder="Search..."
+            {/* Search - Expandable input based on sample */}
+            <div
+              className={cn(
+                "flex items-center transition-all duration-300",
+                searchOpen ? "w-48 sm:w-64 opacity-100" : "w-0 opacity-0 overflow-hidden"
+              )}
+            >
+              <form onSubmit={handleSearch} className="w-full relative">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Search articles..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64"
-                  autoFocus
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  type="button"
-                  onClick={() => {
-                    setSearchOpen(false);
-                    setSearchQuery("");
-                  }}
                   className={cn(
-                    "p-2 rounded-md transition-colors",
-                    isHomePage && !isScrolled
-                      ? "hover:bg-white/10"
-                      : "hover:bg-gray-100",
+                    "w-full border rounded-full py-1.5 px-4 text-xs transition-all focus:outline-none focus:ring-0 focus-visible:ring-0",
+                    isHomePage && !isScrolled 
+                      ? "bg-white/10 border-white/30 text-white placeholder:text-teal-50/60 focus:border-teal-400" 
+                      : "bg-teal-50/50 border-teal-100 text-gray-900 placeholder:text-gray-400 focus:border-teal-600"
                   )}
-                >
-                  <X className={cn("w-5 h-5", iconClasses)} />
-                </Button>
+                />
               </form>
-            ) : (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSearchOpen(true)}
-                className={cn(
-                  "p-2 rounded-md transition-colors",
-                  isHomePage && !isScrolled
-                    ? "hover:bg-white/10"
-                    : "hover:bg-gray-100",
-                )}
-              >
-                <Search className={cn("w-5 h-5", iconClasses)} />
-              </Button>
-            )}
+            </div>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "text-inherit transition-colors",
+                isHomePage && !isScrolled 
+                  ? "text-white hover:text-teal-200 hover:bg-transparent" 
+                  : "text-gray-800 hover:text-teal-600 hover:bg-gray-100"
+              )}
+              onClick={() => {
+                setSearchOpen(!searchOpen);
+                if (!searchOpen) {
+                  setTimeout(() => searchInputRef.current?.focus(), 100);
+                }
+              }}
+            >
+              {searchOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Search className="h-5 w-5" />
+              )}
+            </Button>
 
             {/* Social Icons */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 border-l pl-4 border-gray-200 h-6">
               <a href="#" className="hover:opacity-70 transition-opacity">
                 <Facebook className={cn("w-5 h-5", iconClasses)} />
               </a>
@@ -266,7 +274,12 @@ News and Resources
             ref={mobileButtonRef}
             variant="ghost"
             size="icon"
-            className={cn("md:hidden p-2", iconClasses)}
+            className={cn(
+              "md:hidden p-2 transition-colors",
+              isHomePage && !isScrolled 
+                ? "text-white hover:text-teal-200 hover:bg-transparent" 
+                : "text-gray-800 hover:text-teal-600 hover:bg-gray-100"
+            )}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
@@ -338,6 +351,18 @@ News and Resources
             ref={mobileMenuRef}
             className="md:hidden border-t border-gray-200 py-4 max-h-[calc(100vh-80px)] overflow-y-auto bg-white shadow-xl animate-in slide-in-from-top duration-300"
           >
+            <div className="px-4 mb-6">
+              <form onSubmit={handleSearch} className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input
+                  type="search"
+                  placeholder="Search site..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 rounded-xl bg-teal-50/50 border-teal-100 focus:bg-white focus:border-teal-500 focus:ring-0 transition-all"
+                />
+              </form>
+            </div>
             <nav className="flex flex-col space-y-3">
               <MobileNavLink href="/" onClick={() => setMobileMenuOpen(false)}>
                 Home
@@ -360,6 +385,15 @@ News and Resources
               >
                News and Resources
               </MobileNavLink>
+              <a
+                href="https://drive.google.com/drive/folders/16tXGPlukrQrVih8W-02lmvcnlAaHivnh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-2 text-base font-medium text-gray-800 hover:text-teal-600 hover:bg-gray-50 rounded-lg transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Books
+              </a>
 
               {navbarCategories.map((cat) => (
                 <div key={cat.sys.id}>

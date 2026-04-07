@@ -12,11 +12,11 @@ import {
 
 const STATS = [
   { icon: BookOpen, value: 1000, label: "Quran Distribution" },
-  { icon: MapPin, value: 100, label: "Mosque Tours" },
-  { icon: ShieldCheck, value: 500, label: "Rehabilitated Prisoners" },
-  { icon: Heart, value: 100, label: "Community Support" },
-  { icon: FileText, value: 960000, label: "Books Distributed" },
-  { icon: MessageCircle, value: 3454, label: "Live Chat Sessions" },
+   { icon: MapPin, value: 100, label: "Mosque Tours" },
+   { icon: ShieldCheck, value: 500, label: "Rehabilitated Prisoners" },
+   { icon: Heart, value: 100, label: "Community Support" },
+   { icon: FileText, value: 2000, label: "Books Distributed" },
+   { icon: MessageCircle, value: 3454, label: "Live Sessions" },
  
 
 ];

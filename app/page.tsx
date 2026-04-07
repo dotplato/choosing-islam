@@ -326,7 +326,7 @@ export default async function Home() {
                   {/* Book 1 (Back Left) */}
                   <div className="absolute left-0 top-1/2 -translate-y-1/2 -rotate-[15deg] w-24 h-32 md:w-36 md:h-48 bg-gray-100 rounded-lg shadow-xl border border-gray-200 overflow-hidden transform lg:group-hover:-translate-x-4 lg:group-hover:-rotate-[20deg] -translate-x-4 -rotate-[20deg] lg:-translate-x-0 lg:-rotate-[15deg] transition-transform duration-500 z-10">
                     <Image
-                      src="/values/edu.jpeg"
+                      src="/getAccessSection/a1.jpeg"
                       alt="Free Book 1"
                       fill
                       className="object-cover opacity-80"
@@ -335,7 +335,7 @@ export default async function Home() {
                   {/* Book 2 (Middle) */}
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-32 md:w-36 md:h-48 bg-white rounded-lg shadow-2xl border border-gray-100 overflow-hidden transform lg:group-hover:-translate-y-[60%] -translate-y-[60%] lg:-translate-y-1/2 transition-transform duration-500 z-20">
                     <Image
-                      src="/impact/i1.jpeg"
+                      src="/getAccessSection/a2.jpeg"
                       alt="Free Book 2"
                       fill
                       className="object-cover"
@@ -344,7 +344,7 @@ export default async function Home() {
                   {/* Book 3 (Front Right) */}
                   <div className="absolute right-0 top-1/2 -translate-y-1/2 rotate-[15deg] w-24 h-32 md:w-36 md:h-48 bg-gray-50 rounded-lg shadow-xl border border-gray-200 overflow-hidden transform lg:group-hover:translate-x-4 lg:group-hover:rotate-[20deg] translate-x-4 rotate-[20deg] lg:translate-x-0 lg:rotate-[15deg] transition-transform duration-500 z-30">
                     <Image
-                      src="/impact/i7.jpeg"
+                      src="/getAccessSection/a3.jpeg"
                       alt="Free Book 3"
                       fill
                       className="object-cover opacity-90"

@@ -84,10 +84,10 @@ export default function Contact() {
       icon: Mail,
       title: "Email Us",
       description: "Send us a message and we'll respond within 24 hours.",
-      detail: "info@faithconnect.org",
+      detail: "info@islaminbelize.com",
       color: "from-teal-500 to-cyan-600",
       action: "Send Email",
-      href: "mailto:info@faithconnect.org",
+      href: "mailto:info@islaminbelize.com",
     },
     {
       icon: Phone,
@@ -110,12 +110,12 @@ export default function Contact() {
     },
     {
       icon: BookOpen,
-      title: "Order Literature",
+      title: "Free Resources",
       description: "Request free books, brochures, or a copy of the Quran.",
       detail: "Free educational materials",
       color: "from-teal-600 to-cyan-700",
-      action: "Order Now",
-      href: "#contact-form",
+      action: "Get free access",
+      href: "https://drive.google.com/drive/folders/16tXGPlukrQrVih8W-02lmvcnlAaHivnh",
     },
   ];
 

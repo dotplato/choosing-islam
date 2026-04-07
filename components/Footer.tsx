@@ -46,16 +46,13 @@ export default function Footer() {
               through education and dialogue.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-teal-200 transition-colors">
+              <a href="https://facebook.com/islaminbelize" className="hover:text-teal-200 transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-teal-200 transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="hover:text-teal-200 transition-colors">
+              <a href="https://instagram.com/islaminbelize" className="hover:text-teal-200 transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="hover:text-teal-200 transition-colors">
+              <a href="https://youtube.com/islaminbelize" className="hover:text-teal-200 transition-colors">
                 <Youtube className="w-5 h-5" />
               </a>
             </div>

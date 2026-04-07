@@ -16,6 +16,7 @@ import {
   getNews,
 } from "@/lib/contentful";
 import ArticlesClient from "./ArticlesClient";
+import FreeResourcesBanner from "@/components/FreeResourcesBanner";
 
 export default async function ArticlesPage() {
   // Fetch articles, categories, videos, and news from Contentful
@@ -119,36 +120,7 @@ export default async function ArticlesPage() {
       {/* Articles Grid and Filter */}
       <ArticlesClient items={allItems} categories={categories} />
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-br from-teal-600 to-cyan-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            Want to Learn More?
-          </h2>
-          <p className="text-xl text-teal-50 mb-8">
-            Subscribe to our newsletter to receive the latest articles and
-            resources directly to your inbox.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-teal-700 hover:bg-gray-100"
-            >
-              Subscribe Now
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-            <Link href="/contact">
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-teal-700"
-              >
-                Contact Us
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+     <FreeResourcesBanner />
     </>
   );
 }

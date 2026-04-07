@@ -30,6 +30,22 @@ interface HeroSlide {
 const slides: HeroSlide[] = [
   {
     tagline: "",
+    title: "Islamic Mission Belize – A Legacy of Faith and Education",
+    description: " From its beginnings in 1972, standing as a center of faith dedicated to spreading authentic Islam across Belize.",
+    image: "/impact/i7.jpeg",
+    floatingImage: "/impact/i6.jpeg",
+    floatingImagePosition: "bottom-right",
+    stats: {
+      number: "50+",
+      label: "Islamic Resources",
+      avatars: [
+        "https://images.pexels.com/photos/1001897/pexels-photo-1001897.jpeg?auto=compress&cs=tinysrgb&w=100",
+        "https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=100",
+      ]
+    }
+  },
+  {
+    tagline: "",
     title: "Islamic Mission Belize – A Legacy of Dawah",
     description: "Alone, I can do a little — but together, we can build a brighter future and make a lasting difference.",
     image: "/hero/h1.jpeg",
@@ -45,22 +61,7 @@ const slides: HeroSlide[] = [
       ]
     }
   },
-  {
-    tagline: "",
-    title: "Islamic Mission Belize – A Legacy of Faith and Education",
-    description: " From its beginnings in 1972, standing as a center of faith dedicated to spreading authentic Islam across Belize.",
-    image: "/impact/i7.jpeg",
-    floatingImage: "/impact/i6.jpeg",
-    floatingImagePosition: "bottom-right",
-    stats: {
-      number: "50+",
-      label: "Islamic Resources",
-      avatars: [
-        "https://images.pexels.com/photos/1001897/pexels-photo-1001897.jpeg?auto=compress&cs=tinysrgb&w=100",
-        "https://images.pexels.com/photos/1738986/pexels-photo-1738986.jpeg?auto=compress&cs=tinysrgb&w=100",
-      ]
-    }
-  },
+  
   {
     tagline: "",
     title: "Hope and Reform Behind Bars",

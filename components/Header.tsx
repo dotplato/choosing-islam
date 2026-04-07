@@ -145,14 +145,7 @@ export default function Header({
             <NavLink href="/articles" className={textClasses}>
               News and Resources
             </NavLink>
-            <a
-              href="https://drive.google.com/drive/folders/16tXGPlukrQrVih8W-02lmvcnlAaHivnh"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn("text-base font-medium transition-colors", textClasses)}
-            >
-              Books
-            </a>
+           
             <div className="relative">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -168,7 +161,9 @@ export default function Header({
                   >
                     Quran <ChevronDown className="w-4 h-4" />
                   </Button>
+
                 </DropdownMenuTrigger>
+                
                 <DropdownMenuContent
                   align="start"
                   className="w-[300px] border-t-4 border-teal-600 rounded-none p-0"
@@ -177,7 +172,7 @@ export default function Header({
                     asChild
                     className="border-b border-gray-100 rounded-none py-3 px-4 focus:bg-teal-50 focus:text-teal-600 cursor-pointer"
                   >
-                    <Link href="https://www.clearquran.com/">
+                    <Link href="https://www.clearquran.com/" target="_blank" rel="noopener noreferrer">
                       Read the Quran
                     </Link>
                   </DropdownMenuItem>
@@ -198,6 +193,14 @@ export default function Header({
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+             <a
+              href="https://drive.google.com/drive/folders/16tXGPlukrQrVih8W-02lmvcnlAaHivnh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn("text-base font-medium transition-colors", textClasses)}
+            >
+              Free Downloads
+            </a>
             <NavLink href="/contact" className={textClasses}>
               Contact
             </NavLink>
@@ -254,16 +257,13 @@ export default function Header({
 
             {/* Social Icons */}
             <div className="flex items-center space-x-3 border-l pl-4 border-gray-200 h-6">
-              <a href="#" className="hover:opacity-70 transition-opacity">
+              <a href="https://facebook.com/islaminbelize" className="hover:opacity-70 transition-opacity">
                 <Facebook className={cn("w-5 h-5", iconClasses)} />
               </a>
-              <a href="#" className="hover:opacity-70 transition-opacity">
-                <Twitter className={cn("w-5 h-5", iconClasses)} />
-              </a>
-              <a href="#" className="hover:opacity-70 transition-opacity">
+              <a href="https://instagram.com/islaminbelize" className="hover:opacity-70 transition-opacity">
                 <Instagram className={cn("w-5 h-5", iconClasses)} />
               </a>
-              <a href="#" className="hover:opacity-70 transition-opacity">
+              <a href="https://youtube.com/islaminbelize" className="hover:opacity-70 transition-opacity">
                 <Youtube className={cn("w-5 h-5", iconClasses)} />
               </a>
             </div>
@@ -474,16 +474,14 @@ export default function Header({
 
               {/* Mobile Social Icons */}
               <div className="flex items-center space-x-4 pt-4 border-t border-gray-200">
-                <a href="#" className="hover:opacity-70 transition-opacity">
+                <a href="https://facebook.com/islaminbelize" className="hover:opacity-70 transition-opacity">
                   <Facebook className="w-5 h-5 text-gray-800" />
                 </a>
-                <a href="#" className="hover:opacity-70 transition-opacity">
-                  <Twitter className="w-5 h-5 text-gray-800" />
-                </a>
-                <a href="#" className="hover:opacity-70 transition-opacity">
+               
+                <a href="https://instagram.com/islaminbelize" className="hover:opacity-70 transition-opacity">
                   <Instagram className="w-5 h-5 text-gray-800" />
                 </a>
-                <a href="#" className="hover:opacity-70 transition-opacity">
+                <a href="https://youtube.com/islaminbelize" className="hover:opacity-70 transition-opacity">
                   <Youtube className="w-5 h-5 text-gray-800" />
                 </a>
               </div>

@@ -85,7 +85,7 @@ export default function Contact() {
       title: "Email Us",
       description: "Send us a message and we'll respond within 24 hours.",
       detail: "info@islaminbelize.com",
-      color: "from-teal-500 to-cyan-600",
+      color: "from-teal-500 to-teal-600",
       action: "Send Email",
       href: "mailto:info@islaminbelize.com",
     },
@@ -93,10 +93,10 @@ export default function Contact() {
       icon: Phone,
       title: "Call Us",
       description: "Our team is available 24/7 to answer your questions.",
-      detail: "1-800-123-4567",
-      color: "from-cyan-500 to-blue-600",
+      detail: "501-623-0077",
+      color: "from-teal-600 to-teal-700",
       action: "Call Now",
-      href: "tel:1-800-123-4567",
+      href: "tel:501-623-0077",
     },
     {
       icon: MapPin,
@@ -104,7 +104,7 @@ export default function Contact() {
       description:
         "Interested in visiting? We'll arrange a guided tour for you.",
       detail: "Find a location near you",
-      color: "from-blue-500 to-teal-600",
+      color: "from-teal-500 to-teal-600",
       action: "Request Tour",
       href: "#contact-form",
     },
@@ -113,7 +113,7 @@ export default function Contact() {
       title: "Free Resources",
       description: "Request free books, brochures, or a copy of the Quran.",
       detail: "Free educational materials",
-      color: "from-teal-600 to-cyan-700",
+      color: "from-teal-600 to-teal-700",
       action: "Get free access",
       href: "https://drive.google.com/drive/folders/16tXGPlukrQrVih8W-02lmvcnlAaHivnh",
     },
@@ -175,12 +175,22 @@ export default function Contact() {
                   <CardDescription className="text-base mb-4">
                     {method.description}
                   </CardDescription>
-                  <p className="text-teal-600 font-semibold mb-4">
-                    {method.detail}
-                  </p>
+                  {method.href.startsWith("mailto:") ||
+                  method.href.startsWith("tel:") ? (
+                    <a
+                      href={method.href}
+                      className="text-teal-600 font-semibold mb-4 block hover:underline"
+                    >
+                      {method.detail}
+                    </a>
+                  ) : (
+                    <p className="text-teal-600 font-semibold mb-4">
+                      {method.detail}
+                    </p>
+                  )}
                   <Button
                     asChild
-                    className="w-full bg-primary hover:bg-primary/90"
+                    className="w-full bg-teal-600 hover:bg-teal-700"
                     onClick={() => {
                       if (method.href === "#contact-form") {
                         const subject =
@@ -191,7 +201,25 @@ export default function Contact() {
                       }
                     }}
                   >
-                    <Link href={method.href}>{method.action}</Link>
+                    {method.href.startsWith("http") ||
+                    method.href.startsWith("mailto:") ||
+                    method.href.startsWith("tel:") ? (
+                      <a
+                        href={method.href}
+                        target={
+                          method.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        rel={
+                          method.href.startsWith("http")
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                      >
+                        {method.action}
+                      </a>
+                    ) : (
+                      <Link href={method.href}>{method.action}</Link>
+                    )}
                   </Button>
                 </CardContent>
               </Card>
@@ -328,7 +356,7 @@ export default function Contact() {
                   type="submit"
                   size="lg"
                   disabled={isLoading}
-                  className="w-full bg-primary hover:bg-primary/90"
+                  className="w-full bg-teal-600 hover:bg-teal-700"
                 >
                   {isLoading ? (
                     <>

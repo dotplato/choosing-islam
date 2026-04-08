@@ -100,7 +100,7 @@ export default async function Home() {
             {topics.slice(0, 4).map((topic, index) => (
               <Link
                 key={index}
-                href={`/articles?category=${encodeURIComponent(topic.title)}`}
+                href={`/articles?tab=all&category=${encodeURIComponent(topic.title)}`}
                 className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer block"
               >
                 <div className="aspect-[4/3] relative">

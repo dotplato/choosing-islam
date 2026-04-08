@@ -91,11 +91,14 @@ export default function ArticlesClient({
     
     if (activeTab !== "all" && item.type !== tabToTypeMap[activeTab]) return false;
 
-    // 2. Filter by Category (Only for Articles and News)
-    if (activeTab === "articles" || activeTab === "news") {
-      if (categoryFilter !== "All") {
+    // 2. Filter by Category (Only for Articles and News when tab is specific, or for all when in 'all' tab)
+    if (categoryFilter !== "All") {
+      if (item.type === "article" || item.type === "news") {
         const typedItem = item as Article | News;
         if (!typedItem.categories.includes(categoryFilter)) return false;
+      } else {
+        // For other types (like videos) that don't have categories yet
+        return false;
       }
     }
 

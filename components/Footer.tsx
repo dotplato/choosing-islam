@@ -88,7 +88,7 @@ export default function Footer() {
                   Resources
                 </a>
               </li>
-              
+
             </ul>
           </div>
 
@@ -96,7 +96,7 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold text-lg mb-4">Support</h3>
             <ul className="space-y-2">
-              
+
               <li>
                 <a
                   href="/donate"
@@ -130,18 +130,20 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start space-x-3">
                 <Phone className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">1-800-123-4567</span>
+                <a href="tel:501-623-0077" className="text-sm hover:text-teal-200 transition-colors">501-623-0077</a>
               </li>
               <li className="flex items-start space-x-3">
                 <Mail className="w-5 h-5 mt-0.5 flex-shrink-0" />
-                <span className="text-sm">info@islaminbelize.com</span>
+                <a href="mailto:info@islaminbelize.com" className="text-sm hover:text-teal-200 transition-colors">info@islaminbelize.com</a>
               </li>
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
                 <span className="text-sm">
-                  123 Faith Street, Suite 100
+                  45 Mopan Street
+                  Belize City
+
                   <br />
-                  New York, NY 10001
+                  Belize
                 </span>
               </li>
             </ul>

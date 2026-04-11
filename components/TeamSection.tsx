@@ -32,7 +32,7 @@ const TEAM_MEMBERS = [
     image: "/team/member.jpeg",
   },
   {
-    name: "Henry Pucket",
+    name: "Henry Puckett",
     email: "hpuckett619@gmail.com",
     phone: "+1 (213) 801-6773",
     image: "/team/member4.jpeg",

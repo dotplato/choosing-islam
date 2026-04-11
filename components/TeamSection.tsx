@@ -28,7 +28,7 @@ const TEAM_MEMBERS = [
   {
     name: "Kerby Bennett",
     email: "kerbybennett@gmail.com",
-    phone: "+501 000 0000",
+    phone: "N/A",
     image: "/team/member.jpeg",
   },
   {

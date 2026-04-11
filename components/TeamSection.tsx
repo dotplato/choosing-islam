@@ -25,6 +25,18 @@ const TEAM_MEMBERS = [
     phone: "+501 623 0077",
     image: "/team/img3.jpeg",
   },
+  {
+    name: "Kerby Bennett",
+    email: "kerbybennett@gmail.com",
+    phone: "+501 000 0000",
+    image: "/team/member.jpeg",
+  },
+  {
+    name: "Henry Pucket",
+    email: "hpuckett619@gmail.com",
+    phone: "+1 (213) 801-6773",
+    image: "/team/member4.jpeg",
+  },
 ];
 
 interface TeamSectionProps {
@@ -45,9 +57,9 @@ export default function TeamSection({ title = "Meet Our Team" }: TeamSectionProp
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-6xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-x-12 gap-y-16 max-w-7xl mx-auto">
           {TEAM_MEMBERS.map((member, index) => (
-            <div key={index} className="relative group">
+            <div key={index} className="relative group w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)] max-w-sm">
               {/* Tilted Background Effect (from ValuesSection) */}
               <div className={cn(
                 "absolute -inset-4 bg-teal-50 rounded-[3rem] transition-transform duration-500 group-hover:rotate-0 z-0",

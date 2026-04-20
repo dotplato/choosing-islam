@@ -30,7 +30,7 @@ interface HeroSlide {
 const slides: HeroSlide[] = [
   {
     tagline: "",
-    title: "Islamic Mission Belize – A Legacy of Faith and Education",
+    title: "Islamic Dawah Center of Belize – A Legacy of Faith and Education",
     description: " From its beginnings in 1972, standing as a center of faith dedicated to spreading authentic Islam across Belize.",
     image: "/impact/i7.jpeg",
     floatingImage: "/impact/i6.jpeg",
@@ -46,7 +46,7 @@ const slides: HeroSlide[] = [
   },
   {
     tagline: "",
-    title: "Islamic Mission Belize – A Legacy of Dawah",
+    title: "Islamic Dawah Center of Belize – A Legacy of Dawah",
     description: "Alone, I can do a little — but together, we can build a brighter future and make a lasting difference.",
     image: "/hero/h1.jpeg",
     floatingImage: "/impact/i4.jpeg",
@@ -114,7 +114,7 @@ export default function HeroCarousel() {
       {/* Background Image (Lower Opacity) - Fixed behind everything */}
       <div className="absolute inset-0 z-0 opacity-20">
         <Image
-          src={slides[0].image}
+          src={slides[1].image}
           alt="Background"
           fill
           className="object-cover"

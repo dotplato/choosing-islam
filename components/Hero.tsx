@@ -10,10 +10,10 @@ export default function Hero() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-8 leading-tight animate-in fade-in slide-in-from-bottom-4 duration-700">
-            Islamic Mission Belize – A Legacy of Dawah
+            Islamic Dawah Center of Belize – A Legacy of Dawah
           </h1>
           <p className="text-xl sm:text-2xl mb-10 text-teal-50 leading-relaxed max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-6 duration-1000">
-            From its beginnings in 1972 to becoming a fully grounded Sunni community, the Islamic Mission Belize stands as a center of faith, education, and outreach dedicated to spreading authentic Islam across Belize.
+            From its beginnings in 1972 to becoming a fully grounded Sunni community, the Islamic Dawah Center of Belize stands as a center of faith, education, and outreach dedicated to spreading authentic Islam across Belize.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
             
